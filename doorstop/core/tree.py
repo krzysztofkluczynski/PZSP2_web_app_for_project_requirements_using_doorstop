@@ -634,14 +634,8 @@ class Tree(BaseValidatable):  # pylint: disable=R0902
         if html_links:
             prefix = '<li><a href="documents/{0}">{0}</a></li>'.format(prefix)
         yield prefix
-        # Build child prefix strings
+        # Go through children
         for count, child in enumerate(self.children, start=1):
-            if count < len(self.children):
-                base = self._symbol("pipe", encoding)
-                indent = self._symbol("tee", encoding)
-            else:
-                base = self._symbol("space", encoding)
-                indent = self._symbol("bend", encoding)
             for index, line in enumerate(
                 # pylint: disable=protected-access
                 child._draw_lines(encoding, html_links)
