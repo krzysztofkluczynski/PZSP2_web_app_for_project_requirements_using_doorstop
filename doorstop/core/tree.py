@@ -629,16 +629,13 @@ class Tree(BaseValidatable):  # pylint: disable=R0902
     def _draw_lines(self, encoding, html_links=False):
         """Generate lines of the tree structure."""
         # Build parent prefix string (`getattr` to enable mock testing)
+        yield "<ul>"
         prefix = getattr(self.document, "prefix", "") or str(self.document)
         if html_links:
-            prefix = '<a href="documents/{0}">{0}</a>'.format(prefix)
+            prefix = '<li><a href="documents/{0}">{0}</a></li>'.format(prefix)
         yield prefix
         # Build child prefix strings
         for count, child in enumerate(self.children, start=1):
-            if count == 1:
-                yield self._symbol("end", encoding)
-            else:
-                yield self._symbol("pipe", encoding)
             if count < len(self.children):
                 base = self._symbol("pipe", encoding)
                 indent = self._symbol("tee", encoding)
@@ -649,10 +646,8 @@ class Tree(BaseValidatable):  # pylint: disable=R0902
                 # pylint: disable=protected-access
                 child._draw_lines(encoding, html_links)
             ):
-                if index == 0:
-                    yield indent + line
-                else:
-                    yield base + line
+                yield line
+        yield "</ul>"
 
     @staticmethod
     def _symbol(name, encoding):
