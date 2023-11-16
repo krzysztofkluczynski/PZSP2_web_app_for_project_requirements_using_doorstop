@@ -13,3 +13,7 @@ section > * {
 section > :first-child {
     margin-left: 0px;
 }
+
+ul {
+    list-style-type: disc;
+}
