@@ -1,3 +1,4 @@
+## Cel projektu
 Naszym głównym celem jest stworzenie kompleksowego rozwiązania wspomagającego zarządzanie wymaganiami w projekcie informatycznym. 
 Projekt rozbudowuje narzędzie Doorstop o webowy interfejs. Dzięki temu użytkownik będzie mógł zobaczyć oraz zarządzać wymaganiami 
 zdefiniowanymi w folderze projektu w postaci plików yaml w bardziej przystępny sposób. Interfejs webowy umożliwia dostęp do wymagań także dla osób nietechnicznych. 
