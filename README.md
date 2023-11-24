@@ -1,3 +1,17 @@
+Naszym głównym celem jest stworzenie kompleksowego rozwiązania wspomagającego zarządzanie wymaganiami w projekcie informatycznym. 
+Projekt rozbudowuje narzędzie Doorstop o webowy interfejs. Dzięki temu użytkownik będzie mógł zobaczyć oraz zarządzać wymaganiami 
+zdefiniowanymi w folderze projektu w postaci plików yaml w bardziej przystępny sposób. Interfejs webowy umożliwia dostęp do wymagań także dla osób nietechnicznych. 
+
+
+
+
+
+
+
+
+
+
+
 [![Linux Tests](https://github.com/doorstop-dev/doorstop/actions/workflows/test-linux.yml/badge.svg)](https://github.com/doorstop-dev/doorstop/actions/workflows/test-linux.yml)
 [![macOS Tests](https://github.com/doorstop-dev/doorstop/actions/workflows/test-osx.yml/badge.svg)](https://github.com/doorstop-dev/doorstop/actions/workflows/test-osx.yml)
 [![Windows Tests](https://github.com/doorstop-dev/doorstop/actions/workflows/test-windows.yml/badge.svg)](https://github.com/doorstop-dev/doorstop/actions/workflows/test-windows.yml)
