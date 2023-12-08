@@ -199,7 +199,7 @@ def items_post(prefix):
     if delete is not None:
         item = request.POST.get('item')
         tree.remove_item(item)
-    prefix = prefix[1:-1]
+
     document = tree.find_document(prefix)
     uids = [str(item.uid) for item in document]
     return template("item_list", prefix=prefix, items=uids)
