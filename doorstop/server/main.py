@@ -141,13 +141,6 @@ def index():
     yield template("index", tree_code=tree.draw(html_links=True))
 
 
-@post("/")
-def index_post():
-    delete = request.POST.get('Delete')
-    if delete is not None:
-        tree.find_document()
-    yield template("index", tree_code=tree.draw(html_links=True))
-
 @get("/documents")
 def get_documents():
     """Read the tree's documents."""
