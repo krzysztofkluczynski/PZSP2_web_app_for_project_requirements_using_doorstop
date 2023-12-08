@@ -141,6 +141,13 @@ def index():
     yield template("index", tree_code=tree.draw(html_links=True))
 
 
+@post("/")
+def index_post():
+    delete = request.POST.get('Delete')
+    if delete is not None:
+        tree.find_document()
+    yield template("index", tree_code=tree.draw(html_links=True))
+
 @get("/documents")
 def get_documents():
     """Read the tree's documents."""
@@ -184,6 +191,18 @@ def get_items(prefix):
         return data
     else:
         return template("item_list", prefix=prefix, items=uids)
+
+
+@post("/documents/<prefix>/items")
+def items_post(prefix):
+    delete = request.POST.get('Delete')
+    if delete is not None:
+        item = request.POST.get('item')
+        tree.remove_item(item)
+    prefix = prefix[1:-1]
+    document = tree.find_document(prefix)
+    uids = [str(item.uid) for item in document]
+    return template("item_list", prefix=prefix, items=uids)
 
 
 @get("/documents/<prefix>/items/<uid>")
