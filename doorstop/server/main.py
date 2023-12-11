@@ -166,6 +166,8 @@ def get_all_documents():
 @get("/documents/<prefix>")
 def get_document(prefix):
     """Read a tree's document."""
+    if (len(prefix) > 5 and prefix[-5:] == ".html"):
+        prefix = prefix[:-5]
     document = tree.find_document(prefix)
     if utilities.json_response(request):
         data = {str(item.uid): item.data for item in document}
