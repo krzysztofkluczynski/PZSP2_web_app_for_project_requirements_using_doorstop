@@ -1,0 +1,18 @@
+active: true
+derived: false
+header: |
+  Przeglądanie konkretnych wymagań wraz z ich „nadwymaganiami” i „podwymaganiami”
+level: 1.4
+links:
+- PRQ002: null
+- PRQ003: null
+- PRQ008: null
+normative: true
+ref: ''
+reviewed: avwblqPimDJ2OgTrRCXxRPN8FQhUBWqPIXm7kSR95C4=
+text: |
+  Obok każdego wymagania powinny znajdować się linki do jego “nadwymagań” i “podwymagań”  (parent links i child links). Linki te powinny odsyłać użytkownika do wybranego wymagania.
+
+  **Success End Condition:** Linki poprawnie wyświetlają użytkownikowi wybrane wymaganie.
+
+  **Failed End Condition:** Linki nie wyświetlają się lub nie wyświetlają po kliknięciu w nie danego wymagania.

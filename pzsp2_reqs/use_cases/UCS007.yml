@@ -1,0 +1,17 @@
+active: true
+derived: false
+header: |
+  Edytowanie istniejącego wymagania
+level: 2.2
+links:
+- PRQ005: null
+- PRQ009: null
+normative: true
+ref: ''
+reviewed: avwblqPimDJ2OgTrRCXxRPN8FQhUBWqPIXm7kSR95C4=
+text: |
+  Obok każdego wymagania powinien znajdować się przycisk “edit” pozwalający edytować wybrane wymaganie. Jego kliknięcie powinno przenieść użytkownika do edytora wymagań wypełnionego istniejącą już zawartością wymagania w formie do edycji.
+
+  **Success End Condition:** Użytkownik pomyślnie przeszedł do ekranu edycji wymagania.
+
+  **Failed End Condition:** Przycisk nie działa, lub edytor nie wyświetla się poprawnie.

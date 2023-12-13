@@ -1,0 +1,17 @@
+active: true
+derived: false
+header: |
+  Dodawanie nowego wymagania
+level: 2.1
+links:
+- PRQ005: null
+- PRQ009: null
+normative: true
+ref: ''
+reviewed: avwblqPimDJ2OgTrRCXxRPN8FQhUBWqPIXm7kSR95C4=
+text: |
+  Obok każdego poziomu wymagań powinien znajdować się przycisk w postaci “plusa” pozwalający dodać wymaganie na wybranym poziomie. Użytkownik po jego kliknięciu powinien być przeniesiony do edytora w którym może zapisać treść nowego elementu.
+
+  **Success End Condition:** Użytkownik zostaje przeniesiony do edytora i zostaje wstawione nowe wymaganie.
+
+  **Failed End Condition:** Przycisk nie działa, lub edytor nie wyświetla się poprawnie.

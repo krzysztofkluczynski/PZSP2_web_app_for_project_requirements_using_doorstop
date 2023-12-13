@@ -1,0 +1,17 @@
+active: true
+derived: false
+header: |
+  Wyświetlenie drzewa wymagań dla konkretnego projektu
+level: 1.2
+links:
+- PRQ006: null
+- PRQ008: null
+normative: true
+ref: ''
+reviewed: avwblqPimDJ2OgTrRCXxRPN8FQhUBWqPIXm7kSR95C4=
+text: |
+  Użytkownik po wejściu do jednego z repozytoriów powinien widzieć drzewo wymagań jakie obecnie znajduje się w projekcie. Jeżeli projekt nie ma żadnego drzewa wymagań (narzędzie Doorstop nie jest do niego podpięte lub nie ma zdefiniowanych wymagań) powinno być możliwe jest utworzenie nowego drzewa.
+
+  **Success End Condition:** Użytkownik widzi drzewo wymagań dla projektu, wyświetla ono prawidłową hierarchię wymagań.
+
+  **Failed End Condition:**  Drzewo wymagań nie wyświetla się i użytkownik nie jest w stanie utworzyć go od zera.
