@@ -70,3 +70,7 @@
 .sidebar * {
     margin-left: 0px;
 }
+
+.affix-top {
+  position: fixed;
+}
