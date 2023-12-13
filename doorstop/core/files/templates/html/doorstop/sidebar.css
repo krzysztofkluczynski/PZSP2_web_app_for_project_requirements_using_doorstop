@@ -10,6 +10,7 @@
     padding-left: 20px;
     margin-top: 20px;
     margin-bottom: 20px;
+    max-width: 16.67%;
 }
 
 /* all links */
@@ -30,22 +31,22 @@
 }
 
 /* active & hover links */
-.sidebar .nav>.active>a, 
-.sidebar .nav>li>a:hover, 
+.sidebar .nav>.active>a,
+.sidebar .nav>li>a:hover,
 .sidebar .nav>li>a:focus {
-    color: #563d7c;                 
-    text-decoration: none;          
-    background-color: transparent;  
-    border-left-color: #563d7c; 
+    color: #563d7c;
+    text-decoration: none;
+    background-color: transparent;
+    border-left-color: #563d7c;
 }
 /* all active links */
-.sidebar .nav>.active>a, 
+.sidebar .nav>.active>a,
 .sidebar .nav>.active:hover>a,
 .sidebar .nav>.active:focus>a {
     font-weight: 700;
 }
 /* nested active links */
-.sidebar .nav .nav>.active>a, 
+.sidebar .nav .nav>.active>a,
 .sidebar .nav .nav>.active:hover>a,
 .sidebar .nav .nav>.active:focus>a {
     font-weight: 500;
@@ -58,11 +59,11 @@
 
 /* hide inactive nested list */
 .sidebar .nav ul.nav {
-    display: none;           
+    display: none;
 }
 /* show active nested list */
 .sidebar .nav>.active>ul.nav {
-    display: block;           
+    display: block;
 }
 
 /* don't be affected by <section> indentation */
