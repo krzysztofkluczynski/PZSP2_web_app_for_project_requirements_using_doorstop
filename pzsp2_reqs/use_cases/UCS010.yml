@@ -1,0 +1,16 @@
+active: true
+derived: false
+header: |
+  Dodanie opcji wyświetlenia opisu wymagania w Markdownie
+level: 2.5
+links:
+- PRQ005: null
+normative: true
+ref: ''
+reviewed: avwblqPimDJ2OgTrRCXxRPN8FQhUBWqPIXm7kSR95C4=
+text: |
+  Edytor powinien wspierać użytkowników w formatowaniu treści wymagania w składni języka Markdown (np. poprzez przyciski do szybkiego formatowania tak jak w MS Word, czyli **B**, *I*, <u>U</u>, <s>S</s>), a następnie w odpowiedni sposób wyświetlać je w dokumentach.
+
+  **Success End Condition:** W dokumencie wyświetlają się wymagania odpowiednio sformatowanie zgodnie z zapisem w języku Markdown
+
+  **Failed End Condition:** Dokument wyświetla się razem ze znakami specjalnymi stanowiącymi podstawę formatowania w języku Markdown, ale sama treść powinna być nadal czytelna.

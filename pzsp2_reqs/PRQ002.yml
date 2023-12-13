@@ -1,0 +1,12 @@
+active: true
+derived: false
+header: |
+    Dostęp do wymagań
+level: 1.1
+links: []
+normative: true
+ref: ''
+reviewed: 6FPt2dfP1f3yG10Ud_mG2-spw30Gekt1PWZU7TuV_p4=
+text: |
+    Programista powinien mieć dostęp do wymagań na niższych poziomach, które jasno definiują zadania do wykonania oraz wskazują na miejsce w kodzie gdzie znajduję się ich implementacja.
+

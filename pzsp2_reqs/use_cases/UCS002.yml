@@ -1,0 +1,16 @@
+active: true
+derived: false
+header: |
+  Dostęp do swoich projektów na Github
+level: 1.1
+links:
+- PRQ008: null
+normative: true
+ref: ''
+reviewed: avwblqPimDJ2OgTrRCXxRPN8FQhUBWqPIXm7kSR95C4=
+text: |
+  Użytkownik powinien móc logować się do narzędzia przy użyciu swojego konta na platformie Github. Po zalogowaniu powinien na ekranie zobaczyć listę repozytoriów przypisanych do jego konta.
+
+  **Success End Condition:** użytkownik zalogował się poprawnie i widzi swoje repozytoria.
+
+  **Failed End Condition:** użytkownik nie przeszedł uwierzytelniania lub nie widzi swoich repozytoriów

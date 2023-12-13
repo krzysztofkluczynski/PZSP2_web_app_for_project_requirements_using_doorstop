@@ -1,0 +1,16 @@
+active: true
+derived: false
+header: |
+  Dodanie diagramu UML za pomocą języka PlantUML
+level: 2.4
+links:
+- PRQ004: null
+normative: true
+ref: ''
+reviewed: avwblqPimDJ2OgTrRCXxRPN8FQhUBWqPIXm7kSR95C4=
+text: |
+  W edytorze wymagań użytkownik powinien mieć możliwość wprowadzenia w treści wymagania kodu diagramu UML w składni języka PlantUML, który po zapisaniu oraz wyjściu z edytora powinien wyświetlać się jako diagram UML w treści opisu wymagania.
+
+  **Success End Condition:** Diagram (zakładając, że jego kod nie ma błędów składniowych) wyświetla się przy przeglądaniu wymagań.
+
+  **Failed End Condition:** W przypadku błędnego kodu zamiast diagramu wyświetla się komunikat o błędzie w kodzie diagramu.

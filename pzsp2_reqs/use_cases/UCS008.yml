@@ -1,0 +1,17 @@
+active: true
+derived: false
+header: |
+  Usuwanie wymagania
+level: 2.3
+links:
+- PRQ005: null
+- PRQ009: null
+normative: true
+ref: ''
+reviewed: avwblqPimDJ2OgTrRCXxRPN8FQhUBWqPIXm7kSR95C4=
+text: |
+  Obok każdego wymagania znajduje się przycisk “delete” pozwalający usunąć wymaganie. Po kliknięciu wymaganie jest usuwane, co powinno poskutkować usunięciem pliku yml w strukturze projektu. Numery wymagań powinny automatycznie zaktualizować się aby odzwierciedlać nową kolejność.
+
+  **Success End Condition:** Użytkownikowi udało się usunąć wymaganie.
+
+  **Failed End Condition:** Wymaganie nie zostało usunięte, aplikacja wyświetla komunikat o niepowodzeniu.

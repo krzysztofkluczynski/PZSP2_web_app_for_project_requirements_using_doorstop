@@ -1,0 +1,11 @@
+active: true
+derived: false
+header: |
+    Rysowanie diagramów
+level: 1.3
+links: []
+normative: true
+ref: ''
+reviewed: 6FPt2dfP1f3yG10Ud_mG2-spw30Gekt1PWZU7TuV_p4=
+text: |
+    Powinna istnieć możliwość zdefiniowania diagramu UML za pomocą języka PlantUML.

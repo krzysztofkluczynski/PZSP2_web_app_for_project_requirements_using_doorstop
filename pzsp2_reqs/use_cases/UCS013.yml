@@ -1,0 +1,18 @@
+active: true
+derived: false
+header: |
+  Odniesienia do miejsc w kodzie
+level: 1.5
+links:
+- PRQ002: null
+- PRQ003: null
+- PRQ010: null
+normative: true
+ref: ''
+reviewed: avwblqPimDJ2OgTrRCXxRPN8FQhUBWqPIXm7kSR95C4=
+text: |
+  Powinna istnieć możliwość odniesienia się w kodzie do wymagań projektu, oraz przejścia od wymagań w projekcie do miejsca w kodzie które o nich wspomina (lub stwierdzenia, do którego kawałka kodu dane wymaganie się odnosi)
+
+  **Success End Condition:** W sekcji "External references" wymagania widoczne są odwołania do kodu (o ile takie istnieją)
+
+  **Failed End Condition:** Odwołania do kodu nie wyświetlają się mimo istnienia.

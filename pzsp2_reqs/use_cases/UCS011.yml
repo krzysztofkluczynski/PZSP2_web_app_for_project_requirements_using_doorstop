@@ -1,0 +1,16 @@
+active: true
+derived: false
+header: |
+  Zapisanie zmian w postaci zautomatyzowanego commita
+level: 2.6
+links:
+- PRQ006: null
+normative: true
+ref: ''
+reviewed: avwblqPimDJ2OgTrRCXxRPN8FQhUBWqPIXm7kSR95C4=
+text: |
+  Po wprowadzeniu jakichkolwiek zmian do naszych wymagań (będących tak naprawdę modyfikacją plików yml z wymaganiami w projekcie) użytkownik powinien mieć możliwość zrobienia commita do repozytorium, w którym znajduje się projekt. Powinien móc zrobić to poprzez przycisk “commit” znajdujący się w widoku drzewa wymagań dla projektu.
+
+  **Success End Condition:** Użytkownik po wykonaniu commita do repozytorium otrzymuje odpowiedni komunikat, a repozytorium zostaje zaktualizowane.
+
+  **Failed End Condition:** Commit nie udał się (np. przez problemy z uwierzytelnieniem i autoryzacją na Githubie), wyświetlono odpowiedni komunikat.
