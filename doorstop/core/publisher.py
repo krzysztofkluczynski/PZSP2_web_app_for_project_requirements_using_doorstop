@@ -437,7 +437,10 @@ def _lines_markdown(obj, **kwargs):
                     uid = "{u}".format(u=item.uid)
 
             # buttons
-            buttons = [_format_action_buttons("+"), _format_action_buttons("M"), _format_action_buttons("-"), _format_action_buttons("H")]
+            buttons = [_format_action_buttons(obj.prefix, item.uid, "+", "Add"),
+                       _format_action_buttons(obj.prefix, item.uid, "E", "Edit"),
+                       _format_action_buttons(obj.prefix, item.uid, "-", "Delete"),
+                       _format_action_buttons(obj.prefix, item.uid, "H", "Hide"),]
             for button in buttons:
                 uid = uid + button
 
@@ -517,9 +520,11 @@ def _format_md_attr_list(item, linkify):
     return " {{#{u} }}".format(u=item.uid) if linkify else ""
 
 
-def _format_action_buttons(text):
+def _format_action_buttons(prefix, num, text, action):
     """Create a button to put next to the item header"""
-    return f"<input type=\"submit\" value=\"{text}\" onclick=\"test()\">"
+    return (f"<form class=\"item-edit-form\" action=\"/documents/{prefix}\" method=POST> <input type =\"submit\" "
+            f"value=\"{text}\"> <input type =\"hidden\" name=\"item\" value=\"{num}\"> <input type =\"hidden\" "
+            f"name=\"action\" value=\"{action}\"> </form>")
 
 
 def _format_text_ref(item):
