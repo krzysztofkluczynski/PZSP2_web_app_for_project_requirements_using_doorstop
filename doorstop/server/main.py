@@ -180,7 +180,13 @@ def get_document(prefix):
 def post_document(prefix):
     """Modify items in the document"""
     post_req = request.POST
-    pass
+    action = post_req.get("action")
+    if action == "Delete":
+        item = post_req.get("item")
+        tree.remove_item(item)
+    document = tree.find_document(prefix)
+    return publisher.publish_lines(document, ext=".html", linkify=True)
+
 
 
 @get("/documents/<prefix>/items")
