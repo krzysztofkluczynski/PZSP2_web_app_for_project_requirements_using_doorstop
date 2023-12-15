@@ -436,6 +436,11 @@ def _lines_markdown(obj, **kwargs):
                 else:
                     uid = "{u}".format(u=item.uid)
 
+            # buttons
+            buttons = [_format_action_buttons("+"), _format_action_buttons("M"), _format_action_buttons("-"), _format_action_buttons("H")]
+            for button in buttons:
+                uid = uid + button
+
             # Level and UID
             if settings.PUBLISH_BODY_LEVELS:
                 standard = "{h} {lev} {u}".format(h=heading, lev=level, u=uid)
@@ -510,6 +515,11 @@ def _format_level(level):
 def _format_md_attr_list(item, linkify):
     """Create a Markdown attribute list for a heading."""
     return " {{#{u} }}".format(u=item.uid) if linkify else ""
+
+
+def _format_action_buttons(text):
+    """Create a button to put next to the item header"""
+    return f"<input type=\"submit\" value=\"{text}\" onclick=\"test()\">"
 
 
 def _format_text_ref(item):
