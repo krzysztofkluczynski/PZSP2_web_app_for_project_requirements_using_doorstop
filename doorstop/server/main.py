@@ -188,7 +188,6 @@ def post_document(prefix):
     return publisher.publish_lines(document, ext=".html", linkify=True)
 
 
-
 @get("/documents/<prefix>/items")
 def get_items(prefix):
     """Read a document's items."""

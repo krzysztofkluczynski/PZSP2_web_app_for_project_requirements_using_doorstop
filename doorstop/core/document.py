@@ -422,7 +422,7 @@ class Document(BaseValidatable, BaseFileObject):  # pylint: disable=R0902
     @property
     def items(self):
         """Get an ordered list of active items in the document."""
-        return sorted(i for i in self._iter() if i.active)
+        return sorted(i for i in self._iter())
 
     @property
     def depth(self):

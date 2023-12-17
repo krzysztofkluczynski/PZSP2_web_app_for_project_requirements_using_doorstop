@@ -436,74 +436,78 @@ def _lines_markdown(obj, **kwargs):
                 else:
                     uid = "{u}".format(u=item.uid)
 
-            # buttons
-            buttons = [_format_action_buttons(obj.prefix, item.uid, "+", "Add"),
-                       _format_action_buttons(obj.prefix, item.uid, "E", "Edit"),
-                       _format_action_buttons(obj.prefix, item.uid, "-", "Delete"),
-                       _format_action_buttons(obj.prefix, item.uid, "H", "Hide"),]
-            for button in buttons:
-                uid = uid + button
+            if item.active:
+                # buttons
+                buttons = [_format_action_buttons(obj.prefix, item.uid, "+", "Add"),
+                           _format_action_buttons(obj.prefix, item.uid, "E", "Edit"),
+                           _format_action_buttons(obj.prefix, item.uid, "-", "Delete"),
+                           _format_action_buttons(obj.prefix, item.uid, "H", "Hide"),]
+                for button in buttons:
+                    uid = uid + button
 
-            # Level and UID
-            if settings.PUBLISH_BODY_LEVELS:
-                standard = "{h} {lev} {u}".format(h=heading, lev=level, u=uid)
-            else:
-                standard = "{h} {u}".format(h=heading, u=uid)
-
-            attr_list = _format_md_attr_list(item, True)
-            yield standard + attr_list
-
-            # Text
-            if item.text:
-                yield ""  # break before text
-                yield from item.text.splitlines()
-
-            # Reference
-            if item.ref:
-                yield ""  # break before reference
-                yield _format_md_ref(item)
-
-            # Reference
-            if item.references:
-                yield ""  # break before reference
-                yield _format_md_references(item)
-
-            # Parent links
-            if item.links:
-                yield ""  # break before links
-                items2 = item.parent_items
-                if settings.PUBLISH_CHILD_LINKS:
-                    label = "Parent links:"
+                # Level and UID
+                if settings.PUBLISH_BODY_LEVELS:
+                    standard = "{h} {lev} {u}".format(h=heading, lev=level, u=uid)
                 else:
-                    label = "Links:"
-                links = _format_md_links(items2, linkify, to_html=to_html)
-                label_links = _format_md_label_links(label, links, linkify)
-                yield label_links
+                    standard = "{h} {u}".format(h=heading, u=uid)
 
-            # Child links
-            if settings.PUBLISH_CHILD_LINKS:
-                items2 = item.find_child_items()
-                if items2:
+                attr_list = _format_md_attr_list(item, True)
+                yield standard + attr_list
+
+                # Text
+                if item.text:
+                    yield ""  # break before text
+                    yield from item.text.splitlines()
+
+                # Reference
+                if item.ref:
+                    yield ""  # break before reference
+                    yield _format_md_ref(item)
+
+                # Reference
+                if item.references:
+                    yield ""  # break before reference
+                    yield _format_md_references(item)
+
+                # Parent links
+                if item.links:
                     yield ""  # break before links
-                    label = "Child links:"
+                    items2 = item.parent_items
+                    if settings.PUBLISH_CHILD_LINKS:
+                        label = "Parent links:"
+                    else:
+                        label = "Links:"
                     links = _format_md_links(items2, linkify, to_html=to_html)
                     label_links = _format_md_label_links(label, links, linkify)
                     yield label_links
 
-            # Add custom publish attributes
-            if item.document and item.document.publish:
-                header_printed = False
-                for attr in item.document.publish:
-                    if not item.attribute(attr):
-                        continue
-                    if not header_printed:
-                        header_printed = True
-                        yield ""
-                        yield "| Attribute | Value |"
-                        yield "| --------- | ----- |"
-                    yield "| {} | {} |".format(attr, item.attribute(attr))
-                yield ""
+                # Child links
+                if settings.PUBLISH_CHILD_LINKS:
+                    items2 = item.find_child_items()
+                    if items2:
+                        yield ""  # break before links
+                        label = "Child links:"
+                        links = _format_md_links(items2, linkify, to_html=to_html)
+                        label_links = _format_md_label_links(label, links, linkify)
+                        yield label_links
 
+                # Add custom publish attributes
+                if item.document and item.document.publish:
+                    header_printed = False
+                    for attr in item.document.publish:
+                        if not item.attribute(attr):
+                            continue
+                        if not header_printed:
+                            header_printed = True
+                            yield ""
+                            yield "| Attribute | Value |"
+                            yield "| --------- | ----- |"
+                        yield "| {} | {} |".format(attr, item.attribute(attr))
+                    yield ""
+            else:
+                show_button = _format_action_buttons(obj.prefix, item.uid, "O", "Show")
+                line = "<hr><h5>Hidden: {} {} {} </h5><hr>".format(level, uid, show_button)
+                yield line
         yield ""  # break between items
 
 
