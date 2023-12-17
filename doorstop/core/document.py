@@ -88,7 +88,7 @@ class Document(BaseValidatable, BaseFileObject):  # pylint: disable=R0902
         yield from self._iter()
 
     def __len__(self):
-        return len(list(i for i in self._iter() if i.active))
+        return len(list(i for i in self._iter()))
 
     def __bool__(self):
         """Even empty documents should be considered truthy."""
@@ -568,6 +568,25 @@ class Document(BaseValidatable, BaseFileObject):  # pylint: disable=R0902
             self.reorder()
         return item
 
+    def show_item(self, value, reorder=True):
+        """Show (set active to True) an item based on its UID.
+
+        :param value: item or UID
+        :param reorder: update levels of document items
+
+        :raises: :class:`~doorstop.common.DoorstopError` if the item
+            cannot be found
+
+        :return: removed :class:`~doorstop.core.item.Item`
+
+        """
+        uid = UID(value)
+        item = self.find_item(uid)
+        item.active = True
+        if reorder:
+            self.reorder()
+        return item
+
     # decorators are applied to methods in the associated classes
     def reorder(self, manual=True, automatic=True, start=None, keep=None, _items=None):
         """Reorder a document's items.
@@ -794,10 +813,11 @@ class Document(BaseValidatable, BaseFileObject):  # pylint: disable=R0902
         uid = UID(value)
         for item in self:
             if item.uid == uid:
-                if item.active:
-                    return item
-                else:
-                    log.trace("item is inactive: {}".format(item))  # type: ignore
+                return item
+                # if item.active:
+                #     return item
+                # else:
+                #     log.trace("item is inactive: {}".format(item))  # type: ignore
 
         raise DoorstopError("no matching{} UID: {}".format(_kind, uid))
 

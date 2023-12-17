@@ -285,6 +285,26 @@ class Tree(BaseValidatable):  # pylint: disable=R0902
 
         raise DoorstopError(UID.UNKNOWN_MESSAGE.format(k="", u=uid))
 
+    def show_item(self, value, reorder=True):
+        """Shows a hidden item (changes the active value to True)
+
+        :param value: item or UID
+        :param reorder: update levels of document items
+
+        :return: "showed" :class:`~doorstop.core.item.Item`
+        """
+        uid = UID(value)
+        for document in self:
+            try:
+                document.find_item(uid)
+            except DoorstopError:
+                pass  # item not found in that document
+            else:
+                item = document.show_item(uid, reorder=reorder)
+                return item
+
+        raise DoorstopError(UID.UNKNOWN_MESSAGE.format(k="", u=uid))
+
     def check_for_cycle(self, item, cid, path):
         """Check if a cyclic dependency would be created.
 

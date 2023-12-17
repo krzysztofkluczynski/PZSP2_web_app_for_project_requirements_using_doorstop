@@ -181,9 +181,11 @@ def post_document(prefix):
     """Modify items in the document"""
     post_req = request.POST
     action = post_req.get("action")
+    item = post_req.get("item")
     if action == "Delete":
-        item = post_req.get("item")
         tree.remove_item(item)
+    elif action == "Show":
+        tree.show_item(item)
     document = tree.find_document(prefix)
     return publisher.publish_lines(document, ext=".html", linkify=True)
 
