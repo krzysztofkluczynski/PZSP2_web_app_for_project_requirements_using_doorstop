@@ -181,13 +181,18 @@ def post_document(prefix):
     """Modify items in the document"""
     post_req = request.POST
     action = post_req.get("action")
-    item = post_req.get("item")
+    item_uid = post_req.get("item")
     if action == "Delete":
-        tree.remove_item(item)
+        tree.remove_item(item_uid)
     elif action == "Show":
-        tree.set_item_active(item, True)
+        tree.set_item_active(item_uid, True)
     elif action == "Hide":
-        tree.set_item_active(item, False)
+        tree.set_item_active(item_uid, False)
+    elif action == "Add":
+        item = tree.find_item(item_uid)
+        level = item.level + 1
+        document = tree.find_document(item.document.prefix)
+        document.add_item(level=level)
     document = tree.find_document(prefix)
     return publisher.publish_lines(document, ext=".html", linkify=True)
 
