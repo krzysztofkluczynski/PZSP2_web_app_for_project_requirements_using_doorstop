@@ -568,10 +568,11 @@ class Document(BaseValidatable, BaseFileObject):  # pylint: disable=R0902
             self.reorder()
         return item
 
-    def show_item(self, value, reorder=True):
-        """Show (set active to True) an item based on its UID.
+    def set_item_active(self, item, value, reorder=True):
+        """Sets the active property value of an item based on its UID.
 
-        :param value: item or UID
+        :param item: item or UID
+        :param value: new value of the active property
         :param reorder: update levels of document items
 
         :raises: :class:`~doorstop.common.DoorstopError` if the item
@@ -580,9 +581,9 @@ class Document(BaseValidatable, BaseFileObject):  # pylint: disable=R0902
         :return: removed :class:`~doorstop.core.item.Item`
 
         """
-        uid = UID(value)
+        uid = UID(item)
         item = self.find_item(uid)
-        item.active = True
+        item.active = value
         if reorder:
             self.reorder()
         return item

@@ -185,7 +185,9 @@ def post_document(prefix):
     if action == "Delete":
         tree.remove_item(item)
     elif action == "Show":
-        tree.show_item(item)
+        tree.set_item_active(item, True)
+    elif action == "Hide":
+        tree.set_item_active(item, False)
     document = tree.find_document(prefix)
     return publisher.publish_lines(document, ext=".html", linkify=True)
 
