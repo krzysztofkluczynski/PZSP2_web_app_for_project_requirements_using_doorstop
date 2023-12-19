@@ -180,15 +180,14 @@ def get_document(prefix):
 def post_document(prefix):
     """Modify items in the document"""
     post_req = request.POST
-    action = post_req.get("action")
     item_uid = post_req.get("item")
-    if action == "Delete":
+    if "Delete" in post_req:
         tree.remove_item(item_uid)
-    elif action == "Show":
+    elif "Show" in post_req:
         tree.set_item_active(item_uid, True)
-    elif action == "Hide":
+    elif "Hide" in post_req:
         tree.set_item_active(item_uid, False)
-    elif action == "Add":
+    elif "Add" in post_req:
         item = tree.find_item(item_uid)
         level = item.level + 1
         document = tree.find_document(item.document.prefix)

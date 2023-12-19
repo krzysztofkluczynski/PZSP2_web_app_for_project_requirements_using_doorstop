@@ -438,12 +438,9 @@ def _lines_markdown(obj, **kwargs):
 
             if item.active:
                 # buttons
-                buttons = [_format_action_buttons(obj.prefix, item.uid, "+", "Add"),
-                           _format_action_buttons(obj.prefix, item.uid, "E", "Edit"),
-                           _format_action_buttons(obj.prefix, item.uid, "-", "Delete"),
-                           _format_action_buttons(obj.prefix, item.uid, "H", "Hide"),]
-                for button in buttons:
-                    uid = uid + button
+                button_pairs = [("+", "Add"), ("E", "Edit"), ("-", "Delete"), ("H", "Hide")]
+                buttons = _format_action_buttons(obj.prefix, item.uid, button_pairs)
+                uid = uid + buttons
 
                 # Level and UID
                 if settings.PUBLISH_BODY_LEVELS:
@@ -505,7 +502,7 @@ def _lines_markdown(obj, **kwargs):
                         yield "| {} | {} |".format(attr, item.attribute(attr))
                     yield ""
             else:
-                show_button = _format_action_buttons(obj.prefix, item.uid, "O", "Show")
+                show_button = _format_action_buttons(obj.prefix, item.uid, [("O", "Show")])
                 line = "<hr><h5>Hidden: {} {} {} </h5><hr>".format(level, uid, show_button)
                 yield line
         yield ""  # break between items
@@ -524,11 +521,18 @@ def _format_md_attr_list(item, linkify):
     return " {{#{u} }}".format(u=item.uid) if linkify else ""
 
 
-def _format_action_buttons(prefix, num, text, action):
-    """Create a button to put next to the item header"""
-    return (f"<form class=\"item-edit-form\" action=\"/documents/{prefix}\" method=POST> <input type =\"submit\" "
-            f"value=\"{text}\"> <input type =\"hidden\" name=\"item\" value=\"{num}\"> <input type =\"hidden\" "
-            f"name=\"action\" value=\"{action}\"> </form>")
+def _format_action_buttons(prefix, num, text_action_pairs):
+    """Create a form with buttons"""
+    form_text = f"<form class=\"item-edit-form\" action=\"/documents/{prefix}\" method=POST> <input type =\"hidden\" name=\"item\" value=\"{num}\">"
+    for text, action in text_action_pairs:
+        form_text += _format_button(num, text, action)
+    form_text += "</form>"
+    return form_text
+
+
+def _format_button(num, text, action):
+    """Create a button corresponding to an item with certain text and triggering a certain action"""
+    return f"<input type =\"submit\" name=\"{action}\" value=\"{text}\">"
 
 
 def _format_text_ref(item):
