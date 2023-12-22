@@ -7,7 +7,7 @@
   <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
   <link rel="stylesheet" href="{{baseurl}}assets/doorstop/bootstrap.min.css" />
   <link rel="stylesheet" href="{{baseurl}}assets/doorstop/editor.css" />
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+  <script src="https://kit.fontawesome.com/04e26bb3fa.js" crossorigin="anonymous"></script>
   {{! '<link type="text/css" rel="stylesheet" href="%s" />'%(baseurl+'assets/doorstop/'+stylesheet) if stylesheet else "" }}
   <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/MathJax.js?config=TeX-MML-AM_CHTML" ></script>
   <script type="text/x-mathjax-config">
@@ -28,10 +28,10 @@
 
           <textarea id="editor" placeholder="Wpisz tutaj w składni Markdown..."></textarea>
           <div class="editor-buttons">
-              <button onclick="boldText()">B</button>
-              <button onclick="italicizeText()">I</button>
-              <button onclick="underlineText()">U</button>
-              <button onclick="skreslText()">S</button>
+              <button onclick="boldText()" value="B"><i class="fa-solid fa-bold"></i></button>
+              <button onclick="italicizeText()" value="I"><i class="fa-solid fa-italic"></i></button>
+              <button onclick="underlineText()" value="U"><i class="fa-solid fa-underline"></i></button>
+              <button onclick="skreslText()" value="S"><i class="fa-solid fa-strikethrough"></i></button>
           </div>
       </div>
       
