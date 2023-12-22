@@ -438,9 +438,9 @@ def _lines_markdown(obj, **kwargs):
 
             if item.active:
                 # buttons
-                button_pairs = [("+", "Add"), ("E", "Edit"), ("-", "Delete"), ("H", "Hide")]
+                button_pairs = [("+", "Add", "fa-solid fa-plus"), ("E", "Edit", "fa-solid fa-pen-to-square"),
+                                ("-", "Delete", "fa-solid fa-xmark"), ("H", "Hide", "fa-solid fa-eye-slash")]
                 buttons = _format_action_buttons(obj.prefix, item.uid, button_pairs)
-                uid = uid + buttons
 
                 # Level and UID
                 if settings.PUBLISH_BODY_LEVELS:
@@ -449,7 +449,13 @@ def _lines_markdown(obj, **kwargs):
                     standard = "{h} {u}".format(h=heading, u=uid)
 
                 attr_list = _format_md_attr_list(item, True)
-                yield standard + attr_list
+                header = standard + attr_list
+                header = markdown.markdown(header, extensions=EXTENSIONS)
+
+                yield "<div class=\"item-header\"> "
+                yield header
+                yield buttons
+                yield "</div>"
 
                 # Text
                 if item.text:
@@ -502,8 +508,8 @@ def _lines_markdown(obj, **kwargs):
                         yield "| {} | {} |".format(attr, item.attribute(attr))
                     yield ""
             else:
-                show_button = _format_action_buttons(obj.prefix, item.uid, [("O", "Show")])
-                line = "<hr><h5>Hidden: {} {} {} </h5><hr>".format(level, uid, show_button)
+                show_button = _format_action_buttons(obj.prefix, item.uid, [("O", "Show", "fa-solid fa-eye")])
+                line = "<hr><h5>Hidden: {} {} {} </h5>".format(level, uid, show_button)
                 yield line
         yield ""  # break between items
 
@@ -521,18 +527,18 @@ def _format_md_attr_list(item, linkify):
     return " {{#{u} }}".format(u=item.uid) if linkify else ""
 
 
-def _format_action_buttons(prefix, num, text_action_pairs):
+def _format_action_buttons(prefix, num, text_action_icon_tuples):
     """Create a form with buttons"""
     form_text = f"<form class=\"item-edit-form\" action=\"/documents/{prefix}\" method=POST> <input type =\"hidden\" name=\"item\" value=\"{num}\">"
-    for text, action in text_action_pairs:
-        form_text += _format_button(num, text, action)
+    for text, action, icon in text_action_icon_tuples:
+        form_text += _format_button(text, action, icon)
     form_text += "</form>"
     return form_text
 
 
-def _format_button(num, text, action):
+def _format_button(text, action, icon):
     """Create a button corresponding to an item with certain text and triggering a certain action"""
-    return f"<input type =\"submit\" name=\"{action}\" value=\"{text}\">"
+    return f"<button class=\"item-edit-button\" name=\"{action}\" value=\"{text}\"><i class=\"{icon}\"></i></button>"
 
 
 def _format_text_ref(item):
