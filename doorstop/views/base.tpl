@@ -7,6 +7,7 @@
   <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
   <link rel="stylesheet" href="{{baseurl}}assets/doorstop/bootstrap.min.css" />
   <link rel="stylesheet" href="{{baseurl}}assets/doorstop/general.css" />
+  <script src="https://kit.fontawesome.com/04e26bb3fa.js" crossorigin="anonymous"></script>
   {{! '<link type="text/css" rel="stylesheet" href="%s" />'%(baseurl+'assets/doorstop/'+stylesheet) if stylesheet else "" }}
   <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/MathJax.js?config=TeX-MML-AM_CHTML" ></script>
   <script type="text/x-mathjax-config">
