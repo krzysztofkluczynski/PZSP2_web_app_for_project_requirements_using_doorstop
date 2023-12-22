@@ -283,6 +283,10 @@ def post_numbers(prefix):
     else:
         return str(number)
 
+@get("/edit")
+def edit_item():
+    """Edit item in a document."""
+    return template("editor.tpl")
 
 if __name__ == "__main__":
     main()
