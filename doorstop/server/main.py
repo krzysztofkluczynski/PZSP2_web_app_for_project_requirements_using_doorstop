@@ -283,10 +283,45 @@ def post_numbers(prefix):
     else:
         return str(number)
 
-@get("/edit")
-def edit_item():
+@get("/documents/<prefix>/items/<uid>/edit")
+def edit_item(prefix, uid):
     """Edit item in a document."""
-    return template("editor.tpl")
+    properties = tree.get_item_properties_values(uid)
+    return template("editor.tpl", prefix=prefix, uid=uid, properties=properties)
+
+@post("/documents/<prefix>/items/<uid>/edit")
+def post_edit(prefix, uid):
+    """Handle posts on an item edit site."""
+    document = tree.find_document(prefix)
+    item = document.find_item(uid)
+
+    post_req = request.json
+    action = post_req.get("action")
+    state = post_req.get("state")
+
+    if action == "active":
+        if state:
+            tree.set_item_active(item, True)
+        else:
+            tree.set_item_active(item, False)
+    elif action == "derived":
+        if state:
+            tree.set_item_derived(item, True)
+        else:
+            tree.set_item_derived(item, False)
+    elif action == "normative":
+        if state:
+            tree.set_item_normative(item, True)
+        else:
+            tree.set_item_normative(item, False)
+    elif action == "heading":
+        if state:
+            tree.set_item_heading(item, True)
+        else:
+            tree.set_item_heading(item, False)
+    
+    properties = tree.get_item_properties_values(uid)
+    return template("editor.tpl", prefix=prefix, uid=uid, properties=properties)
 
 if __name__ == "__main__":
     main()

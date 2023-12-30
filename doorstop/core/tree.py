@@ -306,6 +306,88 @@ class Tree(BaseValidatable):  # pylint: disable=R0902
 
         raise DoorstopError(UID.UNKNOWN_MESSAGE.format(k="", u=uid))
 
+    def set_item_derived(self, item, value, reorder=False):
+        """changes the derived value of the item
+
+        :param item: item or UID
+        :param value: new derived property value of the item
+        :param reorder: update levels of document items
+
+        :return: derived :class:`~doorstop.core.item.Item`
+        """
+        uid = UID(item)
+        for document in self:
+            try:
+                document.find_item(uid)
+            except DoorstopError:
+                pass  # item not found in that document
+            else:
+                item = document.set_item_derived(uid, value, reorder=reorder)
+                return item
+
+        raise DoorstopError(UID.UNKNOWN_MESSAGE.format(k="", u=uid))
+    
+    def set_item_normative(self, item, value, reorder=False):
+        """changes the normative value of the item
+
+        :param item: item or UID
+        :param value: new normative property value of the item
+        :param reorder: update levels of document items
+
+        :return: normative :class:`~doorstop.core.item.Item`
+        """
+        uid = UID(item)
+        for document in self:
+            try:
+                document.find_item(uid)
+            except DoorstopError:
+                pass  # item not found in that document
+            else:
+                item = document.set_item_normative(uid, value, reorder=reorder)
+                return item
+
+        raise DoorstopError(UID.UNKNOWN_MESSAGE.format(k="", u=uid))
+
+    def set_item_heading(self, item, value, reorder=False):
+        """sets item as a heading (changes the heading value)
+
+        :param item: item or UID
+        :param value: new heading property value of the item
+        :param reorder: update levels of document items
+
+        :return: heading :class:`~doorstop.core.item.Item`
+        """
+        uid = UID(item)
+        for document in self:
+            try:
+                document.find_item(uid)
+            except DoorstopError:
+                pass  # item not found in that document
+            else:
+                item = document.set_item_heading(uid, value, reorder=reorder)
+                return item
+
+        raise DoorstopError(UID.UNKNOWN_MESSAGE.format(k="", u=uid))
+    
+    def get_item_properties_values(self, item):
+        """gets values of item's properties
+
+        :param item: item or UID
+        
+        :return: dict :class:Dict
+        """
+        uid = UID(item)
+        for document in self:
+            try:
+                document.find_item(uid)
+            except DoorstopError:
+                pass  # item not found in that document
+            else:
+                properties = document.get_item_properties_values(uid)
+                return properties
+
+        raise DoorstopError(UID.UNKNOWN_MESSAGE.format(k="", u=uid))
+
     def check_for_cycle(self, item, cid, path):
         """Check if a cyclic dependency would be created.
 

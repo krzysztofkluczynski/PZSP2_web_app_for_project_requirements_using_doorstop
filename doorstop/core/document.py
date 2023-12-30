@@ -587,6 +587,87 @@ class Document(BaseValidatable, BaseFileObject):  # pylint: disable=R0902
         if reorder:
             self.reorder()
         return item
+    
+    def set_item_derived(self, item, value, reorder=True):
+        """Sets the derived property value of an item based on its UID.
+
+        :param item: item or UID
+        :param value: new value of the derived property
+        :param reorder: update levels of document items
+
+        :raises: :class:`~doorstop.common.DoorstopError` if the item
+            cannot be found
+
+        :return: derived :class:`~doorstop.core.item.Item`
+
+        """
+        uid = UID(item)
+        item = self.find_item(uid)
+        item.derived = value
+        if reorder:
+            self.reorder()
+        return item
+
+    def set_item_normative(self, item, value, reorder=True):
+        """Sets the normative property value of an item based on its UID.
+
+        :param item: item or UID
+        :param value: new value of the normative property
+        :param reorder: update levels of document items
+
+        :raises: :class:`~doorstop.common.DoorstopError` if the item
+            cannot be found
+
+        :return: normative :class:`~doorstop.core.item.Item`
+
+        """
+        uid = UID(item)
+        item = self.find_item(uid)
+        item.normative = value
+        if reorder:
+            self.reorder()
+        return item
+    
+    def set_item_heading(self, item, value, reorder=True):
+        """Sets the heading property value of an item based on its UID.
+
+        :param item: item or UID
+        :param value: new value of the heading property
+        :param reorder: update levels of document items
+
+        :raises: :class:`~doorstop.common.DoorstopError` if the item
+            cannot be found
+
+        :return: heading :class:`~doorstop.core.item.Item`
+
+        """
+        uid = UID(item)
+        item = self.find_item(uid)
+        item.heading = value
+        if reorder:
+            self.reorder()
+        return item
+    
+    def get_item_properties_values(self, item):
+        """Gets properties values of an item based on its UID.
+
+        :param item: item or UID
+
+        :raises: :class:`~doorstop.common.DoorstopError` if the item
+            cannot be found
+
+        :return: properties :class:Dict
+
+        """
+        uid = UID(item)
+        item = self.find_item(uid)
+        properties = {
+            "active": item.active,
+            "derived": item.derived,
+            "normative": item.normative,
+            "heading": item.heading
+        }
+        return properties
 
     # decorators are applied to methods in the associated classes
     def reorder(self, manual=True, automatic=True, start=None, keep=None, _items=None):

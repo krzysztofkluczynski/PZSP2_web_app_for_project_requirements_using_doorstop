@@ -82,19 +82,21 @@
 
           <ul class="checkbox-list">
               <li class="checkbox">
-                  <input type="checkbox" id="active" />
+                  <form>
+                  <input type="checkbox" id="active" onchange="postCheckboxChange(this, '{{str(prefix)}}', '{{str(uid)}}', 'active')" {{'checked' if properties["active"] else ''}}/>
                   <label for="active">Active</label>
+                  </form>
               </li>
               <li class="checkbox">
-                  <input type="checkbox" id="derived" />
+                  <input type="checkbox" id="derived" onchange="postCheckboxChange(this, '{{str(prefix)}}', '{{str(uid)}}', 'derived')" {{'checked' if properties["derived"] else ''}}/>
                   <label for="derived">Derived</label>
               </li>
               <li class="checkbox">
-                  <input type="checkbox" id="normative" />
+                  <input type="checkbox" id="normative" onchange="postCheckboxChange(this, '{{str(prefix)}}', '{{str(uid)}}', 'normative')" {{'checked' if properties["normative"] else ''}}/>
                   <label for="normative">Normative</label>
               </li>
               <li class="checkbox">
-                  <input type="checkbox" id="heading" />
+                  <input type="checkbox" id="heading" onchange="postCheckboxChange(this, '{{str(prefix)}}', '{{str(uid)}}', 'heading')" {{'checked' if properties["heading"] else ''}}/>
                   <label for="heading">Heading</label>
               </li>
           </ul>
