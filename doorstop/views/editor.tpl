@@ -30,8 +30,8 @@
           <div class="editor-buttons">
               <button onclick="boldText()" value="B"><i class="fa-solid fa-bold"></i></button>
               <button onclick="italicizeText()" value="I"><i class="fa-solid fa-italic"></i></button>
-              <button onclick="underlineText()" value="U"><i class="fa-solid fa-underline"></i></button>
-              <button onclick="skreslText()" value="S"><i class="fa-solid fa-strikethrough"></i></button>
+              <button onclick="strikethroughText()" value="S"><i class="fa-solid fa-strikethrough"></i></button>
+              <button onclick="addPlantUML()">PlantUML</button>
           </div>
       </div>
       
