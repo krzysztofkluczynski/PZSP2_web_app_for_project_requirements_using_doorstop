@@ -9,7 +9,7 @@ from itertools import chain
 from typing import Dict, List, Optional, Union
 
 from doorstop import common, settings
-from doorstop.common import DoorstopError, DoorstopWarning
+from doorstop.common import DoorstopError, DoorstopWarning, _format_action_buttons
 from doorstop.core import vcs
 from doorstop.core.base import BaseValidatable
 from doorstop.core.document import Document
@@ -192,7 +192,7 @@ class Tree(BaseValidatable):  # pylint: disable=R0902
 
     # decorators are applied to methods in the associated classes
     def create_document(
-        self, path, value, sep=None, digits=None, parent=None, itemformat=None
+            self, path, value, sep=None, digits=None, parent=None, itemformat=None
     ):  # pylint: disable=R0913
         """Create a new document and add it to the tree.
 
@@ -326,7 +326,7 @@ class Tree(BaseValidatable):  # pylint: disable=R0902
                 return item
 
         raise DoorstopError(UID.UNKNOWN_MESSAGE.format(k="", u=uid))
-    
+
     def set_item_normative(self, item, value, reorder=False):
         """changes the normative value of the item
 
@@ -368,7 +368,7 @@ class Tree(BaseValidatable):  # pylint: disable=R0902
                 return item
 
         raise DoorstopError(UID.UNKNOWN_MESSAGE.format(k="", u=uid))
-    
+
     def set_item_level(self, item, value, reorder=False):
         """changes the level value
 
@@ -389,7 +389,7 @@ class Tree(BaseValidatable):  # pylint: disable=R0902
                 return item
 
         raise DoorstopError(UID.UNKNOWN_MESSAGE.format(k="", u=uid))
-    
+
     def set_item_header(self, item, value):
         """changes the header value
 
@@ -429,7 +429,7 @@ class Tree(BaseValidatable):  # pylint: disable=R0902
                 return item
 
         raise DoorstopError(UID.UNKNOWN_MESSAGE.format(k="", u=uid))
-    
+
     def get_item_properties_values(self, item):
         """gets values of item's properties
 
@@ -646,8 +646,8 @@ class Tree(BaseValidatable):  # pylint: disable=R0902
         # Check each document
         for document in documents:
             for issue in chain(
-                hook(document=document, tree=self),
-                document.get_issues(skip=skip, item_hook=item_hook),
+                    hook(document=document, tree=self),
+                    document.get_issues(skip=skip, item_hook=item_hook),
             ):
                 # Prepend the document's prefix to yielded exceptions
                 if isinstance(issue, Exception):
@@ -695,7 +695,7 @@ class Tree(BaseValidatable):  # pylint: disable=R0902
         return children
 
     def _iter_rows(
-        self, item, mapping, parent=True, child=True, row=None
+            self, item, mapping, parent=True, child=True, row=None
     ):  # pylint: disable=R0913
         """Generate all traceability row slices.
 
@@ -796,13 +796,15 @@ class Tree(BaseValidatable):  # pylint: disable=R0902
         yield "<ul>"
         prefix = getattr(self.document, "prefix", "") or str(self.document)
         if html_links:
-            prefix = '<li><a href="documents/{0}">{0}</a></li>'.format(prefix)
+            buttons_specs = [("+", "Add", "fa-solid fa-plus"), ("-", "Delete", "fa-solid fa-xmark")]
+            buttons = _format_action_buttons("/", "", str(self.document), buttons_specs)
+            prefix = '<li><a href="documents/{0}">{0}</a>{1}</li>'.format(prefix, buttons)
         yield prefix
         # Go through children
         for count, child in enumerate(self.children, start=1):
             for index, line in enumerate(
-                # pylint: disable=protected-access
-                child._draw_lines(encoding, html_links)
+                    # pylint: disable=protected-access
+                    child._draw_lines(encoding, html_links)
             ):
                 yield line
         yield "</ul>"
