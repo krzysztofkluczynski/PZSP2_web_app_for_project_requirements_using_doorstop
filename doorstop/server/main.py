@@ -297,29 +297,21 @@ def post_edit(prefix, uid):
 
     post_req = request.json
     action = post_req.get("action")
-    state = post_req.get("state")
+    if (action == "modify-text"):
+        tree.set_item_text(item, post_req.get("content"))
+    else:
+        state = post_req.get("state")
 
-    if action == "active":
-        if state:
-            tree.set_item_active(item, True)
-        else:
-            tree.set_item_active(item, False)
-    elif action == "derived":
-        if state:
-            tree.set_item_derived(item, True)
-        else:
-            tree.set_item_derived(item, False)
-    elif action == "normative":
-        if state:
-            tree.set_item_normative(item, True)
-        else:
-            tree.set_item_normative(item, False)
-    elif action == "heading":
-        if state:
-            tree.set_item_heading(item, True)
-        else:
-            tree.set_item_heading(item, False)
-    
+        match action:
+            case "active":
+                tree.set_item_active(item, state)
+            case "derived":
+                tree.set_item_derived(item, state)
+            case "normative":
+                tree.set_item_normative(item, state)
+            case "heading":
+                tree.set_item_heading(item, state)
+        
     properties = tree.get_item_properties_values(uid)
     return template("editor.tpl", prefix=prefix, uid=uid, properties=properties)
 

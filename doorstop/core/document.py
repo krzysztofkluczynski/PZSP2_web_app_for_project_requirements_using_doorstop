@@ -648,6 +648,23 @@ class Document(BaseValidatable, BaseFileObject):  # pylint: disable=R0902
             self.reorder()
         return item
     
+    def set_item_text(self, item, value):
+        """Sets the text property value of an item based on its UID.
+
+        :param item: item or UID
+        :param value: new value of the text property
+
+        :raises: :class:`~doorstop.common.DoorstopError` if the item
+            cannot be found
+
+        :return: text :class:`~doorstop.core.item.Item`
+
+        """
+        uid = UID(item)
+        item = self.find_item(uid)
+        item.text = value
+        return item
+    
     def get_item_properties_values(self, item):
         """Gets properties values of an item based on its UID.
 

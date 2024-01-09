@@ -7,6 +7,7 @@
   <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
   <link rel="stylesheet" href="{{baseurl}}assets/doorstop/bootstrap.min.css" />
   <link rel="stylesheet" href="{{baseurl}}assets/doorstop/editor.css" />
+  <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
   <script src="https://kit.fontawesome.com/04e26bb3fa.js" crossorigin="anonymous"></script>
   {{! '<link type="text/css" rel="stylesheet" href="%s" />'%(baseurl+'assets/doorstop/'+stylesheet) if stylesheet else "" }}
   <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/MathJax.js?config=TeX-MML-AM_CHTML" ></script>
@@ -27,11 +28,16 @@
           </div>
 
           <textarea id="editor" placeholder="Wpisz tutaj w składni Markdown..."></textarea>
-          <div class="editor-buttons">
-              <button onclick="boldText()" value="B"><i class="fa-solid fa-bold"></i></button>
-              <button onclick="italicizeText()" value="I"><i class="fa-solid fa-italic"></i></button>
-              <button onclick="strikethroughText()" value="S"><i class="fa-solid fa-strikethrough"></i></button>
-              <button onclick="addPlantUML()">PlantUML</button>
+          <div id="buttons-container">
+            <div class="editor-buttons">
+                <button onclick="boldText()" value="B"><i class="fa-solid fa-bold"></i></button>
+                <button onclick="italicizeText()" value="I"><i class="fa-solid fa-italic"></i></button>
+                <button onclick="strikethroughText()" value="S"><i class="fa-solid fa-strikethrough"></i></button>
+                <button onclick="addPlantUML()">PlantUML</button>
+            </div>
+            <div class="save-button">
+                <button onclick="saveTextarea('{{str(prefix)}}', '{{str(uid)}}')">Save</button>
+            </div>
           </div>
       </div>
       
@@ -103,7 +109,8 @@
 
       </div>
   </div>
-
+  <div id="renderedOutput"></div>
+  
   <script src="{{baseurl}}assets/doorstop/editor.js"></script>
 </body>
 </html>

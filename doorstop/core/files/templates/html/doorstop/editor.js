@@ -38,9 +38,9 @@ function editText(specialCharacters) {
     } else {
         var textBeforeCursor = textarea.value.substring(0, start);
         var textAfterCursor = textarea.value.substring(start);
-        var wordBeforeCursor = textBeforeCursor.replace(/.* /, '');
-        var wordAfterCursor = textAfterCursor.replace(/ .*/, '');
-        
+        var wordBeforeCursor = textBeforeCursor.replace(/[\s\S]*\s/, '');
+        var wordAfterCursor = textAfterCursor.replace(/\s[\s\S]*/, '');
+
         //cursor not on a word
         if (wordBeforeCursor.length === 0 || wordAfterCursor.length === 0) {
             textarea.focus();
@@ -88,8 +88,9 @@ function addPlantUML() {
 }
 
 function previewText() {
-    // dodać render
-    alert("Render");
+    var inputText = document.getElementById("editor").value;
+    var renderedText = marked.parse(inputText);
+    document.getElementById("renderedOutput").innerHTML = renderedText;
 }
 
 function postCheckboxChange(checkboxElem, prefix, uid, action) {
@@ -112,4 +113,19 @@ function postCheckboxChange(checkboxElem, prefix, uid, action) {
             state: false
         }));
     }
+}
+
+function saveTextarea(prefix, uid) {
+    var textarea = document.getElementById("editor").value;
+
+    var xhr = new XMLHttpRequest();
+    xhr.open("POST", "/documents/" + prefix + "/items/" + uid + "/edit", true);
+    xhr.setRequestHeader('Content-Type', 'application/json');
+    xhr.send(JSON.stringify({
+        action: "modify-text",
+        content: textarea
+    }));
+
+    alert("zapisano...");
+
 }
