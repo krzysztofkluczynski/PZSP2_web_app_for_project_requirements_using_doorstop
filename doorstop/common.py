@@ -346,3 +346,16 @@ def dump_markdown(data, textattr):
         frontmatter.Post(content, **data), Dumper=yaml.dumper.Dumper
     )
     return text
+
+def _format_action_buttons(endpoint_base, prefix, num, text_action_icon_tuples):
+    """Create a form with buttons"""
+    form_text = f"<form class=\"item-edit-form\" action=\"{endpoint_base}/{prefix}\" method=POST> <input type =\"hidden\" name=\"item\" value=\"{num}\">"
+    for text, action, icon in text_action_icon_tuples:
+        form_text += _format_button(text, action, icon)
+    form_text += "</form>"
+    return form_text
+
+
+def _format_button(text, action, icon):
+    """Create a button corresponding to an item with certain text and triggering a certain action"""
+    return f"<button class=\"item-edit-button\" name=\"{action}\" value=\"{text}\"><i class=\"{icon}\"></i></button>"

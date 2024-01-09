@@ -23,6 +23,8 @@ from doorstop.core.publisher_latex import (
 from doorstop.core.template import CSS, HTMLTEMPLATE, INDEX, MATRIX, get_template
 from doorstop.core.types import is_item, is_tree, iter_documents, iter_items
 
+from doorstop.common import _format_action_buttons
+
 EXTENSIONS = (
     "markdown.extensions.extra",
     "markdown.extensions.sane_lists",
@@ -40,15 +42,15 @@ log = common.logger(__name__)
 
 
 def publish(
-    obj,
-    path,
-    ext=None,
-    linkify=None,
-    index=None,
-    matrix=None,
-    template=None,
-    toc=True,
-    **kwargs,
+        obj,
+        path,
+        ext=None,
+        linkify=None,
+        index=None,
+        matrix=None,
+        template=None,
+        toc=True,
+        **kwargs,
 ):
     """Publish an object to a given format.
 
@@ -438,9 +440,9 @@ def _lines_markdown(obj, **kwargs):
 
             if item.active:
                 # buttons
-                button_pairs = [("+", "Add", "fa-solid fa-plus"), ("E", "Edit", "fa-solid fa-pen-to-square"),
+                buttons_specs = [("+", "Add", "fa-solid fa-plus"), ("E", "Edit", "fa-solid fa-pen-to-square"),
                                 ("-", "Delete", "fa-solid fa-xmark"), ("H", "Hide", "fa-solid fa-eye-slash")]
-                buttons = _format_action_buttons(obj.prefix, item.uid, button_pairs)
+                buttons = _format_action_buttons("/documents", obj.prefix, item.uid, buttons_specs)
 
                 # Level and UID
                 if settings.PUBLISH_BODY_LEVELS:
@@ -525,20 +527,6 @@ def _format_level(level):
 def _format_md_attr_list(item, linkify):
     """Create a Markdown attribute list for a heading."""
     return " {{#{u} }}".format(u=item.uid) if linkify else ""
-
-
-def _format_action_buttons(prefix, num, text_action_icon_tuples):
-    """Create a form with buttons"""
-    form_text = f"<form class=\"item-edit-form\" action=\"/documents/{prefix}\" method=POST> <input type =\"hidden\" name=\"item\" value=\"{num}\">"
-    for text, action, icon in text_action_icon_tuples:
-        form_text += _format_button(text, action, icon)
-    form_text += "</form>"
-    return form_text
-
-
-def _format_button(text, action, icon):
-    """Create a button corresponding to an item with certain text and triggering a certain action"""
-    return f"<button class=\"item-edit-button\" name=\"{action}\" value=\"{text}\"><i class=\"{icon}\"></i></button>"
 
 
 def _format_text_ref(item):
@@ -699,7 +687,7 @@ def _table_of_contents_md(obj, linkify=None):
 
 
 def _lines_html(
-    obj, linkify=False, extensions=EXTENSIONS, template=HTMLTEMPLATE, toc=True
+        obj, linkify=False, extensions=EXTENSIONS, template=HTMLTEMPLATE, toc=True
 ):
     """Yield lines for an HTML report.
 
