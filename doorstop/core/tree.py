@@ -369,6 +369,47 @@ class Tree(BaseValidatable):  # pylint: disable=R0902
 
         raise DoorstopError(UID.UNKNOWN_MESSAGE.format(k="", u=uid))
     
+    def set_item_level(self, item, value, reorder=False):
+        """changes the level value
+
+        :param item: item or UID
+        :param value: new level property value of the item
+        :param reorder: update levels of document items
+
+        :return: level :class:`~doorstop.core.item.Item`
+        """
+        uid = UID(item)
+        for document in self:
+            try:
+                document.find_item(uid)
+            except DoorstopError:
+                pass  # item not found in that document
+            else:
+                item = document.set_item_level(uid, value, reorder=reorder)
+                return item
+
+        raise DoorstopError(UID.UNKNOWN_MESSAGE.format(k="", u=uid))
+    
+    def set_item_header(self, item, value):
+        """changes the header value
+
+        :param item: item or UID
+        :param value: new header property value of the item
+
+        :return: header :class:`~doorstop.core.item.Item`
+        """
+        uid = UID(item)
+        for document in self:
+            try:
+                document.find_item(uid)
+            except DoorstopError:
+                pass  # item not found in that document
+            else:
+                item = document.set_item_header(uid, value)
+                return item
+
+        raise DoorstopError(UID.UNKNOWN_MESSAGE.format(k="", u=uid))
+
     def set_item_text(self, item, value):
         """changes the text value of the item
 

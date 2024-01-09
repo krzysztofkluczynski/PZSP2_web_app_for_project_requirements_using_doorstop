@@ -300,9 +300,9 @@ def post_edit(prefix, uid):
     if (action == "modify-text"):
         tree.set_item_text(item, post_req.get("content"))
     elif (action == "modify-level"):
-        print(post_req.get("content"))
+        tree.set_item_level(item, post_req.get("content"))
     elif (action == "modify-header"):
-        print(post_req.get("content"))
+        tree.set_item_header(item, post_req.get("content"))
     else:
         state = post_req.get("state")
 

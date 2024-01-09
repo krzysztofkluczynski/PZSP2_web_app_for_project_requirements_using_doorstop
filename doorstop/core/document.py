@@ -648,6 +648,43 @@ class Document(BaseValidatable, BaseFileObject):  # pylint: disable=R0902
             self.reorder()
         return item
     
+    def set_item_level(self, item, value, reorder=True):
+        """Sets the level property value of an item based on its UID.
+
+        :param item: item or UID
+        :param value: new value of the level property
+        :param reorder: update levels of document items
+
+        :raises: :class:`~doorstop.common.DoorstopError` if the item
+            cannot be found
+
+        :return: level :class:`~doorstop.core.item.Item`
+
+        """
+        uid = UID(item)
+        item = self.find_item(uid)
+        item.level = value
+        if reorder:
+            self.reorder()
+        return item
+    
+    def set_item_header(self, item, value):
+        """Sets the header property value of an item based on its UID.
+
+        :param item: item or UID
+        :param value: new value of the header property
+
+        :raises: :class:`~doorstop.common.DoorstopError` if the item
+            cannot be found
+
+        :return: header :class:`~doorstop.core.item.Item`
+
+        """
+        uid = UID(item)
+        item = self.find_item(uid)
+        item.header = value
+        return item
+    
     def set_item_text(self, item, value):
         """Sets the text property value of an item based on its UID.
 
