@@ -93,39 +93,56 @@ function previewText() {
     document.getElementById("renderedOutput").innerHTML = renderedText;
 }
 
-function postCheckboxChange(checkboxElem, prefix, uid, action) {
-    if (checkboxElem.checked) {
-        var xhr = new XMLHttpRequest();
-        xhr.open("POST", "/documents/" + prefix + "/items/" + uid + "/edit", true);
-        xhr.setRequestHeader('Content-Type', 'application/json');
-        xhr.send(JSON.stringify({
-            action: action,
-            state: true
-        }));
-
+function postCheckboxChange(checkboxElem, action) {
+    data = {
+        action: action,
+        state: checkboxElem.checked
     }
-    else {
-        var xhr = new XMLHttpRequest();
-        xhr.open("POST", "/documents/" + prefix + "/items/" + uid + "/edit", true);
-        xhr.setRequestHeader('Content-Type', 'application/json');
-        xhr.send(JSON.stringify({
-            action: action,
-            state: false
-        }));
-    }
+    postToEditor(data);
 }
 
-function saveTextarea(prefix, uid) {
+function saveTextarea() {
     var textarea = document.getElementById("editor").value;
+
+    data = {
+        action: "modify-text",
+        content: textarea
+    }
+    postToEditor(data);
+
+    alert("zapisano...");
+}
+
+var levelHeading = document.getElementById("level");
+levelHeading.addEventListener("input", function() {
+    var levelValue = levelHeading.innerText;
+
+    data = {
+        action: "modify-level",
+        content: levelValue
+    }
+    postToEditor(data);
+});
+
+
+var headerHeading = document.getElementById("header");
+headerHeading.addEventListener("input", function() {
+    var headerValue = headerHeading.innerText;
+
+    data = {
+        action: "modify-header",
+        content: headerValue
+    }
+    postToEditor(data);
+});
+
+function postToEditor(data) {
+    var item_data = document.getElementById("item-id");
+    var prefix = item_data.getAttribute("prefix");
+    var uid = item_data.getAttribute("uid");
 
     var xhr = new XMLHttpRequest();
     xhr.open("POST", "/documents/" + prefix + "/items/" + uid + "/edit", true);
     xhr.setRequestHeader('Content-Type', 'application/json');
-    xhr.send(JSON.stringify({
-        action: "modify-text",
-        content: textarea
-    }));
-
-    alert("zapisano...");
-
+    xhr.send(JSON.stringify(data));
 }

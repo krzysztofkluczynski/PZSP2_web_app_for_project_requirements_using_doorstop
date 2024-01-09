@@ -19,11 +19,15 @@
 </head>
 <body>
 {{! '<P>Navigation: <a href="{0}">Home</a> &bull; <a href="{0}documents/">Documents</a>'.format(baseurl) if navigation else ''}}
-
+  <div id="item-id" prefix="{{str(prefix)}}" uid="{{str(uid)}}"></div>
   <div id="container">
       <div id="editor-container">
           <div id="title-container">
-              <h1>{{properties["level"]}} {{properties["header"]}}</h1>
+              <div id="header-container">
+                <h1 id="level" contenteditable="true">{{properties["level"]}}</h1>
+                <h1 style="min-width: 10px"></h1>
+                <h1 id="header" contenteditable="true">{{properties["header"]}}</h1>
+              </div>
               <button id="preview-button" onclick="previewText()">Preview</button>
           </div>
 
@@ -36,7 +40,7 @@
                 <button onclick="addPlantUML()">PlantUML</button>
             </div>
             <div class="save-button">
-                <button onclick="saveTextarea('{{str(prefix)}}', '{{str(uid)}}')">Save</button>
+                <button onclick="saveTextarea()">Save</button>
             </div>
           </div>
       </div>
@@ -82,20 +86,20 @@
           <ul class="checkbox-list">
               <li class="checkbox">
                   <form>
-                  <input type="checkbox" id="active" onchange="postCheckboxChange(this, '{{str(prefix)}}', '{{str(uid)}}', 'active')" {{'checked' if properties["active"] else ''}}/>
+                  <input type="checkbox" id="active" onchange="postCheckboxChange(this, 'active')" {{'checked' if properties["active"] else ''}}/>
                   <label for="active">Active</label>
                   </form>
               </li>
               <li class="checkbox">
-                  <input type="checkbox" id="derived" onchange="postCheckboxChange(this, '{{str(prefix)}}', '{{str(uid)}}', 'derived')" {{'checked' if properties["derived"] else ''}}/>
+                  <input type="checkbox" id="derived" onchange="postCheckboxChange(this, 'derived')" {{'checked' if properties["derived"] else ''}}/>
                   <label for="derived">Derived</label>
               </li>
               <li class="checkbox">
-                  <input type="checkbox" id="normative" onchange="postCheckboxChange(this, '{{str(prefix)}}', '{{str(uid)}}', 'normative')" {{'checked' if properties["normative"] else ''}}/>
+                  <input type="checkbox" id="normative" onchange="postCheckboxChange(this, 'normative')" {{'checked' if properties["normative"] else ''}}/>
                   <label for="normative">Normative</label>
               </li>
               <li class="checkbox">
-                  <input type="checkbox" id="heading" onchange="postCheckboxChange(this, '{{str(prefix)}}', '{{str(uid)}}', 'heading')" {{'checked' if properties["heading"] else ''}}/>
+                  <input type="checkbox" id="heading" onchange="postCheckboxChange(this, 'heading')" {{'checked' if properties["heading"] else ''}}/>
                   <label for="heading">Heading</label>
               </li>
           </ul>
