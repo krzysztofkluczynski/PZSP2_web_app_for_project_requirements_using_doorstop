@@ -23,11 +23,11 @@
   <div id="container">
       <div id="editor-container">
           <div id="title-container">
-              <h1>3.4 Untitled</h1>
+              <h1>{{properties["level"]}} {{properties["header"]}}</h1>
               <button id="preview-button" onclick="previewText()">Preview</button>
           </div>
 
-          <textarea id="editor" placeholder="Wpisz tutaj w składni Markdown..."></textarea>
+          <textarea id="editor" placeholder="Wpisz tutaj w składni Markdown...">{{properties["text"]}}</textarea>
           <div id="buttons-container">
             <div class="editor-buttons">
                 <button onclick="boldText()" value="B"><i class="fa-solid fa-bold"></i></button>
@@ -60,29 +60,22 @@
           <div id="links-container">
               <h2>Parent links</h2>
               <ul class="link-list">
-                  <li class="link">
-                      <a href="#">link 1</a>
-                  </li>
-                  <li class="link">
-                      <a href="#">link 2</a>
-                  </li>
-                  <li class="link">
-                      <a href="#">link 3</a>
+                  %for link in properties["links"]:
+                    <li class="link">
+                      <a href="#">{{link}}</a>
+                    </li>
+                  %end
               </ul>
           </div>
 
           <div id="links-container">
               <h2>External references</h2>
               <ul class="link-list">
-                  <li class="link">
-                      <a href="#">link 1</a>
-                  </li>
-                  <li class="link">
-                      <a href="#">link 2</a>
-                  </li>
-                  <li class="link">
-                      <a href="#">link 3</a>
-                  </li>
+                  %for ref in properties["ref"]:
+                    <li class="link">
+                      <a href="#">{{ref}}</a>
+                    </li>
+                  %end
               </ul>
           </div>
 

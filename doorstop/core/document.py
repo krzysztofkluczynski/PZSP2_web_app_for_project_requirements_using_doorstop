@@ -682,7 +682,12 @@ class Document(BaseValidatable, BaseFileObject):  # pylint: disable=R0902
             "active": item.active,
             "derived": item.derived,
             "normative": item.normative,
-            "heading": item.heading
+            "heading": item.heading,
+            "header": item.header,
+            "level": item.level,
+            "links": item.links,
+            "ref": item.ref,
+            "text": item.text
         }
         return properties
 
