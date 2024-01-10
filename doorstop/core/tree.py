@@ -5,13 +5,14 @@
 """Representation of a hierarchy of documents."""
 
 import sys
+import os
 from itertools import chain
 from typing import Dict, List, Optional, Union
 
 from doorstop import common, settings
-from doorstop.common import DoorstopError, DoorstopWarning, _format_action_buttons
+from doorstop.common import DoorstopError, DoorstopWarning, _format_tree_add_button
 from doorstop.core import vcs
-from doorstop.core.base import BaseValidatable
+from doorstop.core.base import BaseValidatable, auto_save
 from doorstop.core.document import Document
 from doorstop.core.item import Item
 from doorstop.core.types import UID, Prefix
@@ -192,7 +193,7 @@ class Tree(BaseValidatable):  # pylint: disable=R0902
 
     # decorators are applied to methods in the associated classes
     def create_document(
-            self, path, value, sep=None, digits=None, parent=None, itemformat=None
+        self, path, value, sep=None, digits=None, parent=None, itemformat=None
     ):  # pylint: disable=R0913
         """Create a new document and add it to the tree.
 
@@ -239,6 +240,34 @@ class Tree(BaseValidatable):  # pylint: disable=R0902
         else:
             log.info("added to tree: {}".format(document))
         return document
+
+    def add_document(self, value, sep=None, digits=None, parent=None, itemformat=None):
+        """Create a new document together with a new directory and add it to the tree.
+
+        :param value: document or prefix
+        :param sep: separator between prefix and numbers
+        :param digits: number of digits for the document's numbers
+        :param parent: parent document's prefix
+        :param itemformat: file format for storing items
+
+        :raises: :class:`~doorstop.common.DoorstopError` if the
+            document cannot be created
+
+        :return: newly created and placed document
+            :class:`~doorstop.core.document.Document`
+
+        """
+        path = self.root
+        if parent:
+            parent_doc = self.find_document(parent)
+            path = parent_doc.path
+        new_doc_path = os.path.join(path, value)
+        os.mkdir(new_doc_path)
+        new_document = self.create_document(new_doc_path, value, sep=sep, digits=digits, parent=parent,
+                                            itemformat=itemformat)
+        new_document.add_item()
+        new_document.save()
+        return new_document
 
     # decorators are applied to methods in the associated classes
     def add_item(self, value, number=None, level=None, reorder=True):
@@ -646,8 +675,8 @@ class Tree(BaseValidatable):  # pylint: disable=R0902
         # Check each document
         for document in documents:
             for issue in chain(
-                    hook(document=document, tree=self),
-                    document.get_issues(skip=skip, item_hook=item_hook),
+                hook(document=document, tree=self),
+                document.get_issues(skip=skip, item_hook=item_hook),
             ):
                 # Prepend the document's prefix to yielded exceptions
                 if isinstance(issue, Exception):
@@ -695,7 +724,7 @@ class Tree(BaseValidatable):  # pylint: disable=R0902
         return children
 
     def _iter_rows(
-            self, item, mapping, parent=True, child=True, row=None
+        self, item, mapping, parent=True, child=True, row=None
     ):  # pylint: disable=R0913
         """Generate all traceability row slices.
 
@@ -796,15 +825,15 @@ class Tree(BaseValidatable):  # pylint: disable=R0902
         yield "<ul>"
         prefix = getattr(self.document, "prefix", "") or str(self.document)
         if html_links:
-            buttons_specs = [("+", "Add", "fa-solid fa-plus"), ("-", "Delete", "fa-solid fa-xmark")]
-            buttons = _format_action_buttons("", "", str(self.document), buttons_specs)
-            prefix = '<li><div class="item-header"><a href="documents/{0}">{0}</a>{1}</div></li>'.format(prefix, buttons)
+            buttons = _format_tree_add_button(str(self.document))
+            prefix = '<li><div class="item-header"><a href="documents/{0}">{0}</a>{1}</div></li>'.format(prefix,
+                                                                                                         buttons)
         yield prefix
         # Go through children
         for count, child in enumerate(self.children, start=1):
             for index, line in enumerate(
-                    # pylint: disable=protected-access
-                    child._draw_lines(encoding, html_links)
+                # pylint: disable=protected-access
+                child._draw_lines(encoding, html_links)
             ):
                 yield line
         yield "</ul>"
