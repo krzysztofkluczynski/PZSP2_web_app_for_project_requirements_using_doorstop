@@ -24,6 +24,7 @@ log = common.logger(__name__)
 app = utilities.StripPathMiddleware(bottle.app())
 tree: Tree = None  # type: ignore
 numbers: Dict[str, int] = defaultdict(int)  # cache of next document numbers
+repository = None
 
 
 def main(args=None):
@@ -69,6 +70,9 @@ def main(args=None):
         default="",
         help="Base URL this is served at (Usually only necessary for WSGI)",
     )
+    parser.add_argument(
+        "-G", "--git", default=None, help="Git repository reference for the manager in the author/repo format"
+    )
 
     # Parse arguments
     args = parser.parse_args(args=args)
@@ -110,6 +114,9 @@ def run(args, cwd, _):
     if args.baseurl != "" and not args.baseurl.endswith("/"):
         args.baseurl += "/"
 
+    global repository
+    repository = args.git
+
     bottle.SimpleTemplate.defaults["baseurl"] = args.baseurl
     bottle.SimpleTemplate.defaults["navigation"] = True
 
@@ -140,6 +147,7 @@ def enable_cors():
 def index():
     """Read the tree."""
     yield template("index", tree_code=tree.draw(html_links=True))
+
 
 @post("/")
 def post_document_tree():
@@ -296,11 +304,13 @@ def post_numbers(prefix):
     else:
         return str(number)
 
+
 @get("/documents/<prefix>/items/<uid>/edit")
 def edit_item(prefix, uid):
     """Edit item in a document."""
     properties = tree.get_item_properties_values(uid)
     return template("editor.tpl", prefix=prefix, uid=uid, properties=properties)
+
 
 @post("/documents/<prefix>/items/<uid>/edit")
 def post_edit(prefix, uid):
@@ -328,9 +338,10 @@ def post_edit(prefix, uid):
                 tree.set_item_normative(item, state)
             case "heading":
                 tree.set_item_heading(item, state)
-        
+
     properties = tree.get_item_properties_values(uid)
     return template("editor.tpl", prefix=prefix, uid=uid, properties=properties)
+
 
 if __name__ == "__main__":
     main()
