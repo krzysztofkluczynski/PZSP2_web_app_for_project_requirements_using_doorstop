@@ -356,6 +356,11 @@ def _format_action_buttons(endpoint_base, prefix, num, text_action_icon_tuples):
     return form_text
 
 
+def _format_tree_add_button(parent):
+    return (f"<button type=\"button\" class=\"item-edit-button\" data-toggle=\"modal\" "
+            f"data-target=\"#addDocumentModal\" data-parent=\"{parent}\"><i class=\"fa-solid fa-plus\"></i></button>")
+
+
 def _format_button(text, action, icon):
     """Create a button corresponding to an item with certain text and triggering a certain action"""
     return f"<button class=\"item-edit-button\" name=\"{action}\" value=\"{text}\"><i class=\"{icon}\"></i></button>"
