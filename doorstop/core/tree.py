@@ -434,7 +434,7 @@ class Tree(BaseValidatable):  # pylint: disable=R0902
         """gets values of item's properties
 
         :param item: item or UID
-        
+
         :return: dict :class:Dict
         """
         uid = UID(item)
@@ -798,7 +798,7 @@ class Tree(BaseValidatable):  # pylint: disable=R0902
         if html_links:
             buttons_specs = [("+", "Add", "fa-solid fa-plus"), ("-", "Delete", "fa-solid fa-xmark")]
             buttons = _format_action_buttons("", "", str(self.document), buttons_specs)
-            prefix = '<li><a href="documents/{0}">{0}</a>{1}</li>'.format(prefix, buttons)
+            prefix = '<li><div class="item-header"><a href="documents/{0}">{0}</a>{1}</div></li>'.format(prefix, buttons)
         yield prefix
         # Go through children
         for count, child in enumerate(self.children, start=1):
