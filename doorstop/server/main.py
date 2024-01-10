@@ -40,6 +40,7 @@ def main(args=None):
         "--launch", action="store_true", help="open the server UI in a browser"
     )
     shared = {"formatter_class": HelpFormatter, "parents": [debug]}
+    # TODO -G github_path -> /commit we flasku, commit button, działająca edycja drzewa plików
 
     # Build main parser
     parser = argparse.ArgumentParser(prog=SERVER, description=__doc__, **shared)  # type: ignore
@@ -138,6 +139,18 @@ def enable_cors():
 @get("/")
 def index():
     """Read the tree."""
+    yield template("index", tree_code=tree.draw(html_links=True))
+
+@post("/")
+def post_document_tree():
+    """Remove or add documents"""
+    post_req = request.POST
+    document_name = post_req.get("item")
+    if "Delete" in post_req:
+        print(f"Delete on document {document_name} was called")
+        tree.documents.remove(tree.find_document(document_name))
+    elif "Add" in post_req:
+        print(f"Add on document {document_name} was called")
     yield template("index", tree_code=tree.draw(html_links=True))
 
 
