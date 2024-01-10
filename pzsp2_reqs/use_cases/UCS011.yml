@@ -2,7 +2,7 @@ active: true
 derived: false
 header: |
   Zapisanie zmian w postaci zautomatyzowanego commita
-level: 2.6
+level: 3.6
 links:
 - PRQ006: null
 normative: true

@@ -2,7 +2,7 @@ active: true
 derived: false
 header: |
   Usuwanie wymagania
-level: 2.3
+level: 3.3
 links:
 - PRQ005: null
 - PRQ009: null

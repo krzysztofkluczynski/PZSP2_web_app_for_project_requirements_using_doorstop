@@ -2,7 +2,7 @@ active: true
 derived: false
 header: |
   Dodanie diagramu UML za pomocą języka PlantUML
-level: 2.4
+level: 3.4
 links:
 - PRQ004: null
 normative: true

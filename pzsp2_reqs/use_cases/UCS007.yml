@@ -2,7 +2,7 @@ active: true
 derived: false
 header: |
   Edytowanie istniejącego wymagania
-level: 2.2
+level: 3.2
 links:
 - PRQ005: null
 - PRQ009: null

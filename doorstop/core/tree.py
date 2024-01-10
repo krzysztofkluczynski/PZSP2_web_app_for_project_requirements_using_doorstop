@@ -797,7 +797,7 @@ class Tree(BaseValidatable):  # pylint: disable=R0902
         prefix = getattr(self.document, "prefix", "") or str(self.document)
         if html_links:
             buttons_specs = [("+", "Add", "fa-solid fa-plus"), ("-", "Delete", "fa-solid fa-xmark")]
-            buttons = _format_action_buttons("/", "", str(self.document), buttons_specs)
+            buttons = _format_action_buttons("", "", str(self.document), buttons_specs)
             prefix = '<li><a href="documents/{0}">{0}</a>{1}</li>'.format(prefix, buttons)
         yield prefix
         # Go through children

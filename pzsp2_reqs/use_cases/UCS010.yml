@@ -2,7 +2,7 @@ active: true
 derived: false
 header: |
   Dodanie opcji wyświetlenia opisu wymagania w Markdownie
-level: 2.5
+level: 3.5
 links:
 - PRQ005: null
 normative: true
