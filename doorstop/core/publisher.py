@@ -687,7 +687,7 @@ def _table_of_contents_md(obj, linkify=None):
 
 
 def _lines_html(
-        obj, linkify=False, extensions=EXTENSIONS, template=HTMLTEMPLATE, toc=True
+        obj, linkify=False, extensions=EXTENSIONS, template=HTMLTEMPLATE, toc=True, **kwargs
 ):
     """Yield lines for an HTML report.
 
@@ -722,8 +722,9 @@ def _lines_html(
             )
             if "baseurl" not in bottle.SimpleTemplate.defaults:
                 bottle.SimpleTemplate.defaults["baseurl"] = ""
+            repository = kwargs["repository"]
             html = bottle_template(
-                template, body=body, toc=toc_html, parent=obj.parent, document=obj
+                template, body=body, toc=toc_html, parent=obj.parent, document=obj, repository=repository
             )
         except Exception:
             log.error("Problem parsing the template %s", template)

@@ -41,7 +41,7 @@ def main(args=None):
         "--launch", action="store_true", help="open the server UI in a browser"
     )
     shared = {"formatter_class": HelpFormatter, "parents": [debug]}
-    # TODO -G github_path -> /commit we flasku, commit button, działająca edycja drzewa plików
+    # TODO /commit we flasku, commit button, działająca edycja drzewa plików
 
     # Build main parser
     parser = argparse.ArgumentParser(prog=SERVER, description=__doc__, **shared)  # type: ignore
@@ -146,7 +146,8 @@ def enable_cors():
 @get("/")
 def index():
     """Read the tree."""
-    yield template("index", tree_code=tree.draw(html_links=True))
+    global repository
+    yield template("index", tree_code=tree.draw(html_links=True), repository=repository)
 
 
 @post("/")
@@ -159,7 +160,7 @@ def post_document_tree():
         tree.documents.remove(tree.find_document(document_name))
     elif "Add" in post_req:
         print(f"Add on document {document_name} was called")
-    yield template("index", tree_code=tree.draw(html_links=True))
+    yield template("index", tree_code=tree.draw(html_links=True), repository=repository)
 
 
 @get("/documents")
@@ -170,7 +171,7 @@ def get_documents():
         data = {"prefixes": prefixes}
         return data
     else:
-        return template("document_list", prefixes=prefixes)
+        return template("document_list", prefixes=prefixes, repository=repository)
 
 
 @get("/documents/all")
@@ -181,7 +182,7 @@ def get_all_documents():
         return data
     else:
         prefixes = [str(document.prefix) for document in tree]
-        return template("document_list", prefixes=prefixes)
+        return template("document_list", prefixes=prefixes, repository=repository)
 
 
 @get("/documents/<prefix>")
@@ -194,7 +195,7 @@ def get_document(prefix):
         data = {str(item.uid): item.data for item in document}
         return data
     else:
-        return publisher.publish_lines(document, ext=".html", linkify=True)
+        return publisher.publish_lines(document, ext=".html", linkify=True, repository=repository)
 
 
 @post("/documents/<prefix>")
@@ -214,7 +215,7 @@ def post_document(prefix):
         document = tree.find_document(item.document.prefix)
         document.add_item(level=level)
     document = tree.find_document(prefix)
-    return publisher.publish_lines(document, ext=".html", linkify=True)
+    return publisher.publish_lines(document, ext=".html", linkify=True, repository=repository)
 
 
 @get("/documents/<prefix>/items")
@@ -226,7 +227,7 @@ def get_items(prefix):
         data = {"uids": uids}
         return data
     else:
-        return template("item_list", prefix=prefix, items=uids)
+        return template("item_list", prefix=prefix, items=uids, repository=repository)
 
 
 @post("/documents/<prefix>/items")
@@ -238,7 +239,7 @@ def items_post(prefix):
 
     document = tree.find_document(prefix)
     uids = [str(item.uid) for item in document]
-    return template("item_list", prefix=prefix, items=uids)
+    return template("item_list", prefix=prefix, items=uids, repository=repository)
 
 
 @get("/documents/<prefix>/items/<uid>")
@@ -249,7 +250,7 @@ def get_item(prefix, uid):
     if utilities.json_response(request):
         return {"data": item.data}
     else:
-        return publisher.publish_lines(item, ext=".html")
+        return publisher.publish_lines(item, ext=".html", repository=repository)
 
 
 @get("/documents/<prefix>/items/<uid>/attrs")
@@ -309,7 +310,7 @@ def post_numbers(prefix):
 def edit_item(prefix, uid):
     """Edit item in a document."""
     properties = tree.get_item_properties_values(uid)
-    return template("editor.tpl", prefix=prefix, uid=uid, properties=properties)
+    return template("editor.tpl", prefix=prefix, uid=uid, properties=properties, repository=repository)
 
 
 @post("/documents/<prefix>/items/<uid>/edit")
@@ -340,7 +341,7 @@ def post_edit(prefix, uid):
                 tree.set_item_heading(item, state)
 
     properties = tree.get_item_properties_values(uid)
-    return template("editor.tpl", prefix=prefix, uid=uid, properties=properties)
+    return template("editor.tpl", prefix=prefix, uid=uid, properties=properties, repository=repository)
 
 
 if __name__ == "__main__":

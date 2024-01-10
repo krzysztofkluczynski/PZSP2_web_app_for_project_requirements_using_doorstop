@@ -19,5 +19,6 @@
 <body>
 {{! '<P>Navigation: <a href="{0}">Home</a> &bull; <a href="{0}documents/">Documents</a>'.format(baseurl) if navigation else ''}}
   {{!base}}
+<div class="commit"><form action="http://127.0.0.1:5000/commit" method="GET" target="frame"><input type="hidden" name="repo" value="{{str(repository)}}"><button type="submit" class="btn btn-primary btn-sm"> Commit </button></form></div><iframe name="frame" style="display: none;"></iframe>
 </body>
 </html>
