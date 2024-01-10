@@ -153,13 +153,12 @@ def index():
 @post("/")
 def post_document_tree():
     """Remove or add documents"""
-    post_req = request.POST
-    document_name = post_req.get("item")
-    if "Delete" in post_req:
-        print(f"Delete on document {document_name} was called")
-        tree.documents.remove(tree.find_document(document_name))
-    elif "Add" in post_req:
-        print(f"Add on document {document_name} was called")
+    post_req = request.json
+    document_name = post_req.get("name")
+    parent_name = post_req.get("parent")
+    print(f"Add document {document_name} with parent {parent_name}")
+    parent_document = tree.find_document(parent_name)
+    tree.add_document(document_name, parent=parent_document.prefix)
     yield template("index", tree_code=tree.draw(html_links=True), repository=repository)
 
 
