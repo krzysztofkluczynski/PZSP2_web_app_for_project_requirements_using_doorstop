@@ -28,6 +28,50 @@
 <body>
 {{! '<P>Navigation: <a href="{0}">Home</a> &bull; <a href="{0}documents/">Documents</a>'.format(baseurl) if navigation else ''}}
   {{!base}}
-<div class="commit"><form action="http://127.0.0.1:5000/commit" method="GET" target="frame"><input type="hidden" name="repo" value="{{str(repository)}}"><button type="submit" class="btn btn-primary btn-sm"> Commit </button></form></div><iframe name="frame" style="display: none;"></iframe>
+<div class="commit"><button type="submit" id="commitButton" class="btn btn-primary btn-sm" data-repo="{{str(repository)}}" data-toggle="modal" data-target="#commitModal"> Commit </button></div>
+<div class="modal fade" id="commitModal" tabindex="-1" role="dialog" aria-labelledby="commitModalLabel" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title">Commit</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <p id="commitStatus">Awaiting response...</p>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-primary" data-dismiss="modal">OK</button>
+      </div>
+    </div>
+  </div>
+</div>
+<script>
+  $('#commitButton').on('click', async function (event) {
+    var button = $(this)
+    var repo = button.data('repo')
+    $('#commitStatus').text('Awaiting response...')
+
+    const response = await fetch("http://127.0.0.1:5000/commit", {
+      method: "POST",
+      body: JSON.stringify({
+        repo: repo
+      }),
+      headers: {
+        "Content-type": "application/json; charset=UTF-8"
+      }
+    })
+
+    response.json().then(data => {
+      var status = data.status
+      var message = "Something went wrong"
+      if (status == "success") {
+        message = "Commit was successful"
+      }
+      $('#commitStatus').text(message)
+    });
+  })
+</script>
 </body>
 </html>
