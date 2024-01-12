@@ -49,24 +49,20 @@
           <div id="links-container">
               <h2>Child links</h2>
               <ul class="link-list">
-                  <li class="link">
-                      <a href="#">link 1</a>
-                  </li>
-                  <li class="link">
-                      <a href="#">link 2</a>
-                  </li>
-                  <li class="link">
-                      <a href="#">link 3</a>
-                  </li>
+                  %for child in properties["child-links"]:
+                    <li class="link">
+                      {{child[0]}} {{child[1]}}
+                    </li>
+                  %end
               </ul>
           </div>
 
           <div id="links-container">
               <h2>Parent links</h2>
               <ul class="link-list">
-                  %for link in properties["links"]:
+                  %for parent in properties["parent-links"]:
                     <li class="link">
-                      <a href="#">{{link}}</a>
+                      {{parent[0]}} {{parent[1]}}
                     </li>
                   %end
               </ul>
@@ -75,11 +71,11 @@
           <div id="links-container">
               <h2>External references</h2>
               <ul class="link-list">
-                  %for ref in properties["ref"]:
-                    <li class="link">
-                      <a href="#">{{ref}}</a>
-                    </li>
-                  %end
+                %if properties["ref"][0]:
+                  <li class="link">
+                    {{properties["ref"][0]}} line: {{properties["ref"][1]}}
+                  </li>
+                %end
               </ul>
           </div>
 

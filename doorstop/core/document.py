@@ -715,6 +715,14 @@ class Document(BaseValidatable, BaseFileObject):  # pylint: disable=R0902
         """
         uid = UID(item)
         item = self.find_item(uid)
+        
+        child_items = item.find_child_items()
+        child_links = []
+        for child in child_items:
+            child_links.append((child, str(child.level) + " " + child.header))
+
+        path, line = item.find_ref()
+
         properties = {
             "active": item.active,
             "derived": item.derived,
@@ -722,8 +730,9 @@ class Document(BaseValidatable, BaseFileObject):  # pylint: disable=R0902
             "heading": item.heading,
             "header": item.header,
             "level": item.level,
-            "links": item.links,
-            "ref": item.ref,
+            "parent-links": item.links,
+            "child-links": child_links,
+            "ref": (path, line),
             "text": item.text
         }
         return properties

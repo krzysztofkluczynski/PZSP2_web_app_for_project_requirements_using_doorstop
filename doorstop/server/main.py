@@ -287,6 +287,14 @@ def post_numbers(prefix):
 def edit_item(prefix, uid):
     """Edit item in a document."""
     properties = tree.get_item_properties_values(uid)
+
+    parents = properties["parent-links"]
+    parents_info = []
+    for parent in parents:
+        parent_item = tree.find_item(parent)
+        parents_info.append((parent_item, str(parent_item.level) + " " + parent_item.header))
+    properties["parent-links"] = parents_info
+    
     return template("editor.tpl", prefix=prefix, uid=uid, properties=properties)
 
 @post("/documents/<prefix>/items/<uid>/edit")
@@ -298,23 +306,30 @@ def post_edit(prefix, uid):
     post_req = request.json
     action = post_req.get("action")
     if (action == "modify-text"):
-        tree.set_item_text(item, post_req.get("content"))
+        item.text = post_req.get("content")
+        # tree.set_item_text(item, post_req.get("content"))
     elif (action == "modify-level"):
-        tree.set_item_level(item, post_req.get("content"))
+        item.level = post_req.get("content")
+        # tree.set_item_level(item, post_req.get("content"))
     elif (action == "modify-header"):
-        tree.set_item_header(item, post_req.get("content"))
+        item.header = post_req.get("content")
+        # tree.set_item_header(item, post_req.get("content"))
     else:
         state = post_req.get("state")
 
         match action:
             case "active":
-                tree.set_item_active(item, state)
+                # tree.set_item_active(item, state)
+                item.active = state
             case "derived":
-                tree.set_item_derived(item, state)
+                # tree.set_item_derived(item, state)
+                item.derived = state
             case "normative":
-                tree.set_item_normative(item, state)
+                # tree.set_item_normative(item, state)
+                item.normative = state
             case "heading":
-                tree.set_item_heading(item, state)
+                # tree.set_item_heading(item, state)
+                item.heading = state
         
     properties = tree.get_item_properties_values(uid)
     return template("editor.tpl", prefix=prefix, uid=uid, properties=properties)

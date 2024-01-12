@@ -80,6 +80,7 @@ h1 {
 #sidebar {
     /* width: 300px; */
     min-width: 300px;
+    max-width: 420px;
     min-height: 500px;
     margin-top: 35px;
     padding: 20px;
