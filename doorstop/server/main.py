@@ -307,28 +307,21 @@ def post_edit(prefix, uid):
     action = post_req.get("action")
     if (action == "modify-text"):
         item.text = post_req.get("content")
-        # tree.set_item_text(item, post_req.get("content"))
     elif (action == "modify-level"):
         item.level = post_req.get("content")
-        # tree.set_item_level(item, post_req.get("content"))
     elif (action == "modify-header"):
         item.header = post_req.get("content")
-        # tree.set_item_header(item, post_req.get("content"))
     else:
         state = post_req.get("state")
 
         match action:
             case "active":
-                # tree.set_item_active(item, state)
                 item.active = state
             case "derived":
-                # tree.set_item_derived(item, state)
                 item.derived = state
             case "normative":
-                # tree.set_item_normative(item, state)
                 item.normative = state
             case "heading":
-                # tree.set_item_heading(item, state)
                 item.heading = state
         
     properties = tree.get_item_properties_values(uid)
