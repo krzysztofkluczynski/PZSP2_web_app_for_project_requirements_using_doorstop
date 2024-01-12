@@ -15,6 +15,15 @@
     tex2jax: {inlineMath: [["$","$"],["\\(","\\)"]]}
   });
   </script>
+    <script>
+    window.addEventListener('beforeunload', function(event) {
+      // Send an AJAX request to your Flask server when the tab is closed
+      var xhr = new XMLHttpRequest();
+      xhr.open('POST', 'http://localhost:5000/closed_tab', true);
+      xhr.setRequestHeader('Content-Type', 'application/json');
+      xhr.send(JSON.stringify({ 'closed_url': window.location.href }));
+    });
+  </script>
 </head>
 <body>
 {{! '<P>Navigation: <a href="{0}">Home</a> &bull; <a href="{0}documents/">Documents</a>'.format(baseurl) if navigation else ''}}
