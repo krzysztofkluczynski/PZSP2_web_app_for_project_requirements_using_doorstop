@@ -12,7 +12,7 @@ from collections import defaultdict
 from typing import Dict
 
 import bottle
-from bottle import get, hook, post, request, response, template
+from bottle import get, hook, post, request, response, template, redirect
 
 from doorstop import Tree, build, common, publisher, settings
 from doorstop.common import HelpFormatter
@@ -41,7 +41,6 @@ def main(args=None):
         "--launch", action="store_true", help="open the server UI in a browser"
     )
     shared = {"formatter_class": HelpFormatter, "parents": [debug]}
-    # TODO /commit we flasku, commit button, działająca edycja drzewa plików
 
     # Build main parser
     parser = argparse.ArgumentParser(prog=SERVER, description=__doc__, **shared)  # type: ignore
@@ -210,11 +209,14 @@ def post_document(prefix):
         tree.set_item_active(item_uid, True)
     elif "Hide" in post_req:
         tree.set_item_active(item_uid, False)
-    elif "Add" in post_req:
-        item = tree.find_item(item_uid)
-        level = item.level + 1
-        document = tree.find_document(item.document.prefix)
-        document.add_item(level=level)
+    elif "Add" in post_req or "Edit" in post_req:
+        if "Add" in post_req:
+            item = tree.find_item(item_uid)
+            level = item.level + 1
+            document = tree.find_document(item.document.prefix)
+            new_item = document.add_item(level=level)
+            item_uid = new_item.uid
+        return redirect(f"/documents/{prefix}/items/{item_uid}/edit")
     document = tree.find_document(prefix)
     return publisher.publish_lines(document, ext=".html", linkify=True, repository=repository)
 
