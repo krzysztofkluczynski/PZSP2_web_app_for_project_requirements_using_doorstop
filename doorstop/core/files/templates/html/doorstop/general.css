@@ -45,3 +45,15 @@ ul {
     z-index:20;
     padding:5px;
 }
+
+.hidden-item {
+    display: flex;
+    flex-direction: row;
+    align-content: center;
+    justify-content: flex-start;
+    align-items: baseline;
+}
+
+.hidden-item small {
+    margin-left: 5px;
+}

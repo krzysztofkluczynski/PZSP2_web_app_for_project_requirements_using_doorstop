@@ -512,7 +512,7 @@ def _lines_markdown(obj, **kwargs):
             else:
                 show_button = _format_action_buttons("/documents", obj.prefix, item.uid,
                                                      [("O", "Show", "fa-solid fa-eye")])
-                line = "<hr><h5>Hidden: {} {} {} </h5>".format(level, uid, show_button)
+                line = "<h5 class=\"hidden-item\">Hidden: {} {} {} </h5>".format(level, uid, show_button)
                 yield line
         yield ""  # break between items
 
