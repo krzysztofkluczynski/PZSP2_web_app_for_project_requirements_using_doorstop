@@ -147,6 +147,8 @@ def enable_cors():
 def index():
     """Read the tree."""
     global repository
+    if not tree.document:
+        tree.add_document("REQ")
     yield template("index", tree_code=tree.draw(html_links=True), repository=repository)
 
 
