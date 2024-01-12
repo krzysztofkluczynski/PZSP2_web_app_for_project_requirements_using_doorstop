@@ -146,3 +146,10 @@ function postToEditor(data) {
     xhr.setRequestHeader('Content-Type', 'application/json');
     xhr.send(JSON.stringify(data));
 }
+
+var returnButton = document.getElementById("return-button");
+returnButton.addEventListener("click", function() {
+    var item_data = document.getElementById("item-id");
+    var prefix = item_data.getAttribute("prefix");
+    window.location.href = "/documents/" + prefix;
+})

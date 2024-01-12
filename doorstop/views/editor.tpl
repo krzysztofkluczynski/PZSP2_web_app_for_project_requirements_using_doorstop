@@ -18,7 +18,7 @@
   </script>
 </head>
 <body>
-{{! '<P>Navigation: <a href="{0}">Home</a> &bull; <a href="{0}documents/">Documents</a>'.format(baseurl) if navigation else ''}}
+{{! '<P>Navigation: <a href="{0}">Home</a> &bull; <a href="{0}documents/">Documents</a><br><button id="return-button">Return</button>'.format(baseurl) if navigation else ''}}
   <div id="item-id" prefix="{{str(prefix)}}" uid="{{str(uid)}}"></div>
   <div id="main-container">
     <div id="container">
