@@ -12,7 +12,7 @@ from collections import defaultdict
 from typing import Dict
 
 import bottle
-from bottle import get, hook, post, request, response, template
+from bottle import get, hook, post, request, response, template, redirect
 
 from doorstop import Tree, build, common, publisher, settings
 from doorstop.common import HelpFormatter
@@ -287,15 +287,10 @@ def post_numbers(prefix):
 def edit_item(prefix, uid):
     """Edit item in a document."""
     properties = tree.get_item_properties_values(uid)
-
-    parents = properties["parent-links"]
-    parents_info = []
-    for parent in parents:
-        parent_item = tree.find_item(parent)
-        parents_info.append((parent_item, str(parent_item.level) + " " + parent_item.header))
-    properties["parent-links"] = parents_info
-    
-    return template("editor.tpl", prefix=prefix, uid=uid, properties=properties)
+    # print(properties)
+    updated_properties = update_parent_links(properties)
+    # print(updated_properties)
+    return template("editor.tpl", prefix=prefix, uid=uid, properties=updated_properties)
 
 @post("/documents/<prefix>/items/<uid>/edit")
 def post_edit(prefix, uid):
@@ -311,6 +306,25 @@ def post_edit(prefix, uid):
         item.level = post_req.get("content")
     elif (action == "modify-header"):
         item.header = post_req.get("content")
+    elif (action == "delete-link"):
+        link_type = post_req.get("type")
+        link_uid = post_req.get("uid")
+        if (link_type == "child"):
+            children = item.find_child_items()
+            for child in children:
+                if (str(child) == str(link_uid)):
+                    child.unlink(uid)
+        elif (link_type == "parent"):
+            item.unlink(link_uid)
+    elif (action == "add-link"):
+        link_type = post_req.get("type")
+        link_uid = post_req.get("uid")
+        if (link_type == "child"):
+            child_document = tree.find_document(link_uid[:3])
+            child_item = child_document.find_item(link_uid)
+            child_item.link(uid)
+        elif (link_type == "parent"):
+            item.link(link_uid)
     else:
         state = post_req.get("state")
 
@@ -323,9 +337,22 @@ def post_edit(prefix, uid):
                 item.normative = state
             case "heading":
                 item.heading = state
-        
-    properties = tree.get_item_properties_values(uid)
-    return template("editor.tpl", prefix=prefix, uid=uid, properties=properties)
+    # print(item.child_links)
+    # print(item.parent_links)
+
+    # properties = tree.get_item_properties_values(uid)
+    # updated_properties = update_parent_links(properties)
+    # return template("editor.tpl", prefix=prefix, uid=uid, properties=updated_properties)
+    return redirect(f"/documents/{prefix}/items/{uid}/edit")
+
+def update_parent_links(properties):
+    parents = properties["parent-links"]
+    parents_info = []
+    for parent in parents:
+        parent_item = tree.find_item(parent)
+        parents_info.append((parent_item, str(parent_item.level) + " " + parent_item.header))
+    properties["parent-links"] = parents_info
+    return properties
 
 if __name__ == "__main__":
     main()
