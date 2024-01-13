@@ -10,6 +10,7 @@ import os
 import webbrowser
 from collections import defaultdict
 from typing import Dict
+import json
 
 import bottle
 from bottle import get, hook, post, request, response, template, redirect
@@ -313,9 +314,7 @@ def post_numbers(prefix):
 def edit_item(prefix, uid):
     """Edit item in a document."""
     properties = tree.get_item_properties_values(uid)
-    # print(properties)
     updated_properties = update_parent_links(properties)
-    # print(updated_properties)
     return template("editor.tpl", prefix=prefix, uid=uid, properties=updated_properties)
 
 @post("/documents/<prefix>/items/<uid>/edit")
@@ -326,6 +325,7 @@ def post_edit(prefix, uid):
 
     post_req = request.json
     action = post_req.get("action")
+
     if (action == "modify-text"):
         item.text = post_req.get("content")
     elif (action == "modify-level"):
@@ -342,15 +342,26 @@ def post_edit(prefix, uid):
                     child.unlink(uid)
         elif (link_type == "parent"):
             item.unlink(link_uid)
+        return json.dumps({"success": True})
     elif (action == "add-link"):
         link_type = post_req.get("type")
         link_uid = post_req.get("uid")
         if (link_type == "child"):
-            child_document = tree.find_document(link_uid[:3])
-            child_item = child_document.find_item(link_uid)
-            child_item.link(uid)
+            try:
+                child_document = tree.find_document(link_uid[:3])
+                child_item = child_document.find_item(link_uid)
+                child_item.link(uid)
+                return json.dumps({"success": True})
+            except:
+                return json.dumps({"success": False})
         elif (link_type == "parent"):
-            item.link(link_uid)
+            try:
+                parent_document = tree.find_document(link_uid[:3])
+                parent_document.find_item(link_uid)
+                item.link(link_uid)
+                return json.dumps({"success": True})
+            except:
+                return json.dumps({"success": False})
     else:
         state = post_req.get("state")
 
@@ -363,12 +374,7 @@ def post_edit(prefix, uid):
                 item.normative = state
             case "heading":
                 item.heading = state
-    # print(item.child_links)
-    # print(item.parent_links)
 
-    # properties = tree.get_item_properties_values(uid)
-    # updated_properties = update_parent_links(properties)
-    # return template("editor.tpl", prefix=prefix, uid=uid, properties=updated_properties)
     return redirect(f"/documents/{prefix}/items/{uid}/edit")
 
 def update_parent_links(properties):

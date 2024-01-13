@@ -185,10 +185,24 @@ function postToEditor(data) {
     var prefix = item_data.getAttribute("prefix");
     var uid = item_data.getAttribute("uid");
 
-    var xhr = new XMLHttpRequest();
-    xhr.open("POST", "/documents/" + prefix + "/items/" + uid + "/edit", true);
-    xhr.setRequestHeader('Content-Type', 'application/json');
-    xhr.send(JSON.stringify(data));
+    fetch(`/documents/${prefix}/items/${uid}/edit`, {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(data)
+    })
+    .then(response => response.json())
+    .then(data => {
+        if (data.success) {
+            location.reload();
+        } else if (!data.success) {
+            alert("UID not found!");
+        }
+    })
+    .catch((error) => {
+        console.error('Error:', error);
+    });
 }
 
 var returnButton = document.getElementById("return-button");
