@@ -27,12 +27,12 @@
                 <div id="header-container">
                   <h1 id="level" contenteditable="true">{{properties["level"]}}</h1>
                   <h1 style="min-width: 10px"></h1>
-                  <h1 id="header" contenteditable="true">{{properties["header"]}}</h1>
+                  <h1 id="header" contenteditable="true" onclick="checkHeaderContent()" onblur="checkHeaderContent()" style="min-width: 100px">{{properties["header"]}}</h1>
                 </div>
                 <button id="preview-button" onclick="previewText()">Preview</button>
             </div>
 
-            <textarea id="editor" placeholder="Wpisz tutaj w składni Markdown...">{{properties["text"]}}</textarea>
+            <textarea id="editor" placeholder="Enter a description in Markdown syntax...">{{properties["text"]}}</textarea>
             <div id="buttons-container">
               <div class="editor-buttons">
                   <button onclick="boldText()" value="B"><i class="fa-solid fa-bold"></i></button>

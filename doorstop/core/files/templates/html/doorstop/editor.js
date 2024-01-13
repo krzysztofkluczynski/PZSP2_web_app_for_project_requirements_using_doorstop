@@ -113,6 +113,18 @@ function saveTextarea() {
     alert("zapisano...");
 }
 
+function checkHeaderContent() {
+    var header = document.getElementById("header");
+    console.log("in check header functuon")
+    if (!header.textContent.trim()) {
+        header.textContent = "Type header here";
+        header.classList.add("placeholder");
+    } else if (header.textContent == "Type header here"){
+        header.classList.remove("placeholder");
+        header.textContent = "";
+    }
+}
+
 function deleteLink(uid, type) {
     data = {
         action: "delete-link",
@@ -185,3 +197,5 @@ returnButton.addEventListener("click", function() {
     var prefix = item_data.getAttribute("prefix");
     window.location.href = "/documents/" + prefix;
 })
+
+checkHeaderContent();

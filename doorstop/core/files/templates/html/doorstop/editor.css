@@ -50,6 +50,10 @@ body {
     max-height: 50px;
 }
 
+#header.placeholder {
+    color: gray;
+  }
+
 #buttons-container {
     flex: 1;
     display: flex;
