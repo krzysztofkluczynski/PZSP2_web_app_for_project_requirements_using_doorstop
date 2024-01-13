@@ -13,7 +13,6 @@ from typing import Dict
 
 import bottle
 from bottle import get, hook, post, request, response, template, redirect
-from bottle import get, hook, post, request, response, template, redirect
 
 from doorstop import Tree, build, common, publisher, settings
 from doorstop.common import HelpFormatter
