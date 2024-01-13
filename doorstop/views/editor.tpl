@@ -48,22 +48,26 @@
         
         <div id="sidebar">
             <div id="links-container">
-                <h2>Child links</h2>
+                <h2>Child links
+                  <button id="links-button" value="+" style="font-size: 28px" onclick="openForm('child')"><i class="fa-solid fa-plus"></i></button>
+                </h2>
                 <ul class="link-list">
                     %for child in properties["child-links"]:
                       <li class="link">
-                        <b>{{child[0]}}</b><br>{{child[1]}}
+                        <b>{{child[0]}}</b> <button id="links-button" value="-" onclick="deleteLink('{{child[0]}}', 'child')"><i class="fa-solid fa-xmark"></i></button><br>{{child[1]}}
                       </li>
                     %end
                 </ul>
             </div>
 
             <div id="links-container">
-                <h2>Parent links</h2>
+                <h2>Parent links
+                  <button id="links-button" value="+" style="font-size: 28px" onclick="openForm('parent')"><i class="fa-solid fa-plus"></i></button>
+                </h2>
                 <ul class="link-list">
                     %for parent in properties["parent-links"]:
                       <li class="link">
-                        <b>{{parent[0]}}</b><br>{{parent[1]}}
+                        <b>{{parent[0]}}</b> <button id="links-button" value="-" onclick="deleteLink('{{parent[0]}}', 'parent')"><i class="fa-solid fa-xmark"></i></button><br>{{parent[1]}}
                       </li>
                     %end
                 </ul>
@@ -100,6 +104,17 @@
         </div>
     </div>
     <div id="renderedOutput"></div>
+  </div>
+  <div id="myModal" data-linkType="">
+    <div id="modalContent">
+      <span id="closeButton" onclick="closeForm()">&times;</span>
+      <h2>Enter an UID for new link:</h2><br>
+      <form id="myForm">
+        <label for="linkUID">UID:</label>
+        <input type="text" id="linkUID" required>
+        <button type="button" onclick="addLink()">Add</button>
+      </form>
+    </div>
   </div>
   <script src="{{baseurl}}assets/doorstop/editor.js"></script>
 </body>

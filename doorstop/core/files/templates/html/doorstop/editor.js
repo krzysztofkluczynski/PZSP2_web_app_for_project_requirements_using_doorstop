@@ -113,6 +113,38 @@ function saveTextarea() {
     alert("zapisano...");
 }
 
+function deleteLink(uid, type) {
+    data = {
+        action: "delete-link",
+        uid: uid,
+        type: type
+    }
+    postToEditor(data);
+}
+
+function addLink() {
+    var uid = document.getElementById("linkUID").value;
+    var linkType = document.getElementById("myModal").dataset.linkType;
+
+    data = {
+        action: "add-link",
+        uid: uid,
+        type: linkType
+    }
+    postToEditor(data)
+    closeForm();
+}
+
+function openForm(linkType) {
+    document.getElementById("myModal").style.display = "block";
+    document.getElementById("myModal").dataset.linkType = linkType;
+}
+
+function closeForm() {
+    document.getElementById("myModal").style.display = "none";
+    document.getElementById("linkUID").value = "";
+}
+
 var levelHeading = document.getElementById("level");
 levelHeading.addEventListener("input", function() {
     var levelValue = levelHeading.innerText;
