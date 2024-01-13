@@ -334,25 +334,6 @@ class Tree(BaseValidatable):  # pylint: disable=R0902
                 return item
 
         raise DoorstopError(UID.UNKNOWN_MESSAGE.format(k="", u=uid))
-    
-    def get_item_properties_values(self, item):
-        """gets values of item's properties
-
-        :param item: item or UID
-
-        :return: dict :class:Dict
-        """
-        uid = UID(item)
-        for document in self:
-            try:
-                document.find_item(uid)
-            except DoorstopError:
-                pass  # item not found in that document
-            else:
-                properties = document.get_item_properties_values(uid)
-                return properties
-
-        raise DoorstopError(UID.UNKNOWN_MESSAGE.format(k="", u=uid))
 
     def check_for_cycle(self, item, cid, path):
         """Check if a cyclic dependency would be created.

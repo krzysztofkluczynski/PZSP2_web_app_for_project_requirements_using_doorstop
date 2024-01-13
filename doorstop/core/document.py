@@ -587,41 +587,6 @@ class Document(BaseValidatable, BaseFileObject):  # pylint: disable=R0902
         if reorder:
             self.reorder()
         return item
-    
-    def get_item_properties_values(self, item):
-        """Gets properties values of an item based on its UID.
-
-        :param item: item or UID
-
-        :raises: :class:`~doorstop.common.DoorstopError` if the item
-            cannot be found
-
-        :return: properties :class:Dict
-
-        """
-        uid = UID(item)
-        item = self.find_item(uid)
-        
-        child_items = item.find_child_items()
-        child_links = []
-        for child in child_items:
-            child_links.append((child, str(child.level) + " " + child.header))
-
-        path, line = item.find_ref()
-
-        properties = {
-            "active": item.active,
-            "derived": item.derived,
-            "normative": item.normative,
-            "heading": item.heading,
-            "header": item.header,
-            "level": item.level,
-            "parent-links": item.links,
-            "child-links": child_links,
-            "ref": (path, line),
-            "text": item.text
-        }
-        return properties
 
     # decorators are applied to methods in the associated classes
     def reorder(self, manual=True, automatic=True, start=None, keep=None, _items=None):

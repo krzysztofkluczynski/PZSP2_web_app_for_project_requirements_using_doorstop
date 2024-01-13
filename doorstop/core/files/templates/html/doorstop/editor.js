@@ -2,9 +2,9 @@ function editText(specialCharacters) {
     /*
     function adds (or removes when already exists) special characters, like "**"
     before and after selected text,
-    or before and after a word, on which we have our cursor currently
+    or before and after a word, on which we have currently our cursor
     */
-    
+
     var len = specialCharacters.length;
     var textarea = document.getElementById("editor");
     var start = textarea.selectionStart;
@@ -115,7 +115,6 @@ function saveTextarea() {
 
 function checkHeaderContent() {
     var header = document.getElementById("header");
-    console.log("in check header functuon")
     if (!header.textContent.trim()) {
         header.textContent = "Type header here";
         header.classList.add("placeholder");

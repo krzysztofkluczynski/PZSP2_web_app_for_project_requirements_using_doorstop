@@ -312,8 +312,10 @@ def post_numbers(prefix):
 
 @get("/documents/<prefix>/items/<uid>/edit")
 def edit_item(prefix, uid):
-    """Edit item in a document."""
-    properties = tree.get_item_properties_values(uid)
+    """Edit item in a document."""    
+    document = tree.find_document(prefix)
+    item = document.find_item(uid)
+    properties = get_item_properties(item)
     updated_properties = update_parent_links(properties)
     return template("editor.tpl", prefix=prefix, uid=uid, properties=updated_properties)
 
@@ -384,6 +386,28 @@ def update_parent_links(properties):
         parent_item = tree.find_item(parent)
         parents_info.append((parent_item, str(parent_item.level) + " " + parent_item.header))
     properties["parent-links"] = parents_info
+    return properties
+
+def get_item_properties(item):
+    child_items = item.find_child_items()
+    child_links = []
+    for child in child_items:
+        child_links.append((child, str(child.level) + " " + child.header))
+
+    path, line = item.find_ref()
+
+    properties = {
+        "active": item.active,
+        "derived": item.derived,
+        "normative": item.normative,
+        "heading": item.heading,
+        "header": item.header,
+        "level": item.level,
+        "parent-links": item.links,
+        "child-links": child_links,
+        "ref": (path, line),
+        "text": item.text
+    }
     return properties
 
 if __name__ == "__main__":
